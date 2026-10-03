@@ -1,0 +1,49 @@
+---
+title: Programs, sections and claims
+description: How a program holds money and sections, and how one claim locks one section in one language.
+---
+
+## Programs
+
+A program belongs to the account that opened it, its **maintainer**. It fixes a source language, one to eight target
+languages, a glossary and a **rate** per section per language. Only the maintainer adds sections and closes the
+program. Anyone may top up its pool; the funding log records every payment and who sent it.
+
+## Sections
+
+A section is at most 2,500 characters of source text with a title. Its id is global across programs, so a section's
+page is `/s/<section>/<lang>`. A section has one state per target language:
+
+| On chain | On the board | Meaning |
+|---|---|---|
+| OPEN | Open | Anyone may claim it |
+| CLAIMED | Claimed | A translator holds it; their claim expires 48 hours after it began |
+| CLAIMED, last submission refused by the exact checks | Pre-check | The holder is fixing a difference |
+| CLAIMED, after one FLAWED verdict | Flawed | The holder is on their one revision |
+| JUDGING | Judging | A submission passed the exact checks and waits for `judge` |
+| APPROVED | OK | Judged FAITHFUL, paid, and in the export |
+
+States are always words, never colour alone. Blue marks approved sections only.
+
+## Claims
+
+- `claim(section_id, lang)` locks one section in one language for 48 hours and reserves one rate from the pool.
+- A translator holds at most three live claims at once.
+- A claim that is not submitted in time reopens the section. The contract has no clock of its own, so an expired
+  claim is released by the next claim or close that touches it; the site already shows it as open.
+- A submission waiting for the judge never expires. Anyone can call `judge` on it, so a translator who stops after
+  submitting cannot block the maintainer from closing.
+
+## Who may do what
+
+Every write is bound to an address, and a test over the contract source fails if a new write is not:
+
+| Write | Who |
+|---|---|
+| `create_program` | anyone; they become the maintainer |
+| `fund` | anyone; recorded in the funding log |
+| `add_sections`, `close` | the maintainer only |
+| `claim` | anyone, for themselves |
+| `submit` | only the holder of the claim |
+| `judge` | anyone; the verdict is the validators', and `judged_by` records who asked |
+| `withdraw` | anyone, for their own balance |

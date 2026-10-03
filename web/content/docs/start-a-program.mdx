@@ -1,0 +1,90 @@
+---
+title: Start a program
+description: Pick languages, a glossary and a rate, fund the pool, and import your docs as sections.
+---
+
+## Open the program
+
+<Steps>
+  <Step>
+    Go to [Start a program](/new). Name the program, pick the source language and up to eight target languages.
+  </Step>
+  <Step>
+    Set the **rate**: the GEN paid for one section in one language. It is fixed when the program opens, the same for
+    every section and language.
+  </Step>
+  <Step>
+    Set the **first funding**. The program opens with it in the pool; the form says how many sections it pays for.
+    Anyone can top the pool up later from the program page.
+  </Step>
+  <Step>
+    Add **glossary** terms if your docs need them: a rendering per language, or "keep" for terms that must stay as
+    written, such as product names. See [Glossaries](/docs/concepts/glossaries).
+  </Step>
+</Steps>
+
+## Import your docs
+
+Paste a Markdown file or choose one. The form splits it the way `scripts/import_markdown.py` does:
+
+1. Front matter and MDX `import` and `export` lines are dropped.
+2. The text is cut at headings (`#`, `##` and `###`), never inside a code block.
+3. A piece longer than 2,500 characters is cut again at blank lines.
+
+Each section's title is its heading. The preview lists every section with its length before you sign, and a block
+longer than 2,500 characters on its own has to be shortened first. Sections are added in batches of twenty, one
+signature each. You can add more later from the program page; sections cannot be edited once added.
+
+## How the money works
+
+- The pool holds what was funded. Each claim **reserves** one rate from it, so a translator never finishes a section
+  the program can no longer pay for.
+- When the free part of the pool cannot cover another section, open sections close until the pool is topped up.
+- A FAITHFUL verdict moves the reserved rate to the translator's balance. Any other ending returns the reserve.
+- **Close** the program when you are done: once no claim is open, the unused pool comes back to you in the same
+  transaction. Balances already credited to translators stay theirs.
+
+Reading a program needs no wallet:
+
+{/* include: web/examples/read_program.py */}
+```python title="web/examples/read_program.py"
+"""
+Read a program's pool and progress from Python, with genlayer-py 0.19.0rc2.
+
+    python web/examples/read_program.py <program id>
+
+genlayer-py reads through an account even for views, so a throwaway one is
+made here; it is never funded and never signs. This file is the Python sample
+on the docs page "Start a program", copied in by scripts/gen_docs.py.
+"""
+
+import json
+import sys
+
+from genlayer_py import create_account, create_client
+from genlayer_py.chains import studio_devnet
+
+FAITHFUL = "0x3762367564e2849380A761539E833D0A930D6e8f"
+studio_devnet.rpc_urls = {"default": {"http": ["https://studio-next.genlayer.com/api"]}}
+
+reader = create_account()
+client = create_client(chain=studio_devnet, account=reader)
+program_id = int(sys.argv[1] if len(sys.argv) > 1 else 1)
+p = json.loads(client.read_contract(address=FAITHFUL, function_name="get_program", args=[program_id], account=reader))
+
+if not p["found"]:
+    raise SystemExit("no such program")
+print(json.dumps({
+    "name": p["name"],
+    "rate_gen": int(p["rate"]) / 10**18,
+    "pool_gen": int(p["pool"]) / 10**18,
+    "payable_sections": p["payable_sections"],
+    "approved": {row["code"]: f'{row["approved"]}/{p["sections"]}' for row in p["langs"]},
+}, ensure_ascii=False))
+```
+{/* end include */}
+
+## Export
+
+Every language has an export page with the approved sections in order, as Markdown or JSON, each linked to the
+transaction that judged it. See [Export format and docs sync](/docs/reference/export-format).

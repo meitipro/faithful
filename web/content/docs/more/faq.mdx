@@ -1,0 +1,51 @@
+---
+title: FAQ and changelog
+description: Questions maintainers and translators ask, and what changed.
+---
+
+## FAQ
+
+### Which languages?
+
+Twenty, listed in [Languages and limits](/docs/more/languages-and-limits). Models are stronger in widely spoken
+languages, so Faithful is most reliable there; pair a rare language with a human spot check.
+
+### Can I use machine translation?
+
+Yes. The verdict is about the result. Raw machine output is approved only if it is faithful and reads naturally; the
+held-out Turkish case in the [evaluation](/docs/more/evaluation), correct but stiff, came back FLAWED for the
+stiffness.
+
+### What about style?
+
+Style choices that keep the meaning are accepted. Faithful does not enforce house style; required renderings go in the
+[glossary](/docs/concepts/glossaries).
+
+### Can a translator talk the judge into approving?
+
+An instruction inside a translation is text that is not in the source, which is an addition, which is FLAWED. Every
+text is also fenced, so it cannot close its block and pose as the contract's own words. The evaluation has that case;
+it came back FLAWED.
+
+### Who pays the fees?
+
+Studio Next takes a small fee deposit on every write, from the SDK estimate, and refunds most of it when the
+transaction is final. Each person pays for their own writes. Test GEN is free from the site's faucet.
+
+### Why is my claim still shown as claimed after 48 hours?
+
+The contract has no clock of its own: an expired claim is released by the next claim or close that touches it. The
+site shows it as open as soon as it expires, and anyone may claim it.
+
+### Which network?
+
+GenLayer Studio Next, chain 61997. See [Addresses and network](/docs/reference/addresses).
+
+## Changelog
+
+### October 2026
+
+- Contract deployed to Studio Next and frozen; the deployed bytes are checked against the repository by
+  `scripts/verify.py`.
+- Golden set and held-out cases run through real consensus; results published as they came out.
+- Site, editor with live checks, exports and these docs.

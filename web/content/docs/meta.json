@@ -1,0 +1,15 @@
+{
+  "title": "Faithful docs",
+  "pages": [
+    "---Getting started---",
+    "index",
+    "quickstart",
+    "start-a-program",
+    "---Concepts---",
+    "...concepts",
+    "---Reference---",
+    "...reference",
+    "---More---",
+    "...more"
+  ]
+}

@@ -1,0 +1,160 @@
+[
+  {
+    "name": "faithful Persian warning",
+    "source": "Never share your recovery phrase. Anyone who has it can move your funds.",
+    "translation": "هرگز عبارت بازیابی خود را با کسی به اشتراک نگذارید. هر کسی که آن را داشته باشد می‌تواند دارایی‌های شما را جابه‌جا کند.",
+    "problems": []
+  },
+  {
+    "name": "a code block translated",
+    "source": "Deploy with the CLI:\n\n```bash\ngenlayer deploy --contract faithful.py\n```",
+    "translation": "Mit der CLI bereitstellen:\n\n```bash\ngenlayer bereitstellen --contract faithful.py\n```",
+    "problems": [
+      "code block 1 differs from the source"
+    ]
+  },
+  {
+    "name": "a code block dropped",
+    "source": "Deploy with the CLI:\n\n```bash\ngenlayer deploy --contract faithful.py\n```",
+    "translation": "Mit der CLI bereitstellen: genlayer deploy --contract faithful.py",
+    "problems": [
+      "the source has 1 code block, the translation has 0"
+    ]
+  },
+  {
+    "name": "a code block kept, prose translated",
+    "source": "Deploy with the CLI:\n\n```bash\ngenlayer deploy --contract faithful.py\n```",
+    "translation": "Mit der CLI bereitstellen:\n\n```bash\ngenlayer deploy --contract faithful.py\n```",
+    "problems": []
+  },
+  {
+    "name": "inline code renamed",
+    "source": "Call `claim(section_id, lang)` before you submit.",
+    "translation": "Llama a `reclamar(section_id, lang)` antes de enviar.",
+    "problems": [
+      "inline code `claim(section_id, lang)` is missing",
+      "inline code `reclamar(section_id, lang)` is not in the source"
+    ]
+  },
+  {
+    "name": "inline code moved by word order",
+    "source": "Call `claim` before `submit`.",
+    "translation": "`submit` öncesinde `claim` çağırın.",
+    "problems": []
+  },
+  {
+    "name": "a link changed",
+    "source": "Read https://docs.genlayer.com/ first.",
+    "translation": "Lee primero https://docs.genlayer.com/es.",
+    "problems": [
+      "link https://docs.genlayer.com/ is missing",
+      "link https://docs.genlayer.com/es is not in the source"
+    ]
+  },
+  {
+    "name": "a link kept, trailing full stop trimmed",
+    "source": "Read https://docs.genlayer.com/ first.",
+    "translation": "Lee primero https://docs.genlayer.com/.",
+    "problems": []
+  },
+  {
+    "name": "a number changed",
+    "source": "The fee is 10 GEN.",
+    "translation": "Die Gebühr beträgt 100 GEN.",
+    "problems": [
+      "number 10 is missing",
+      "number 100 is not in the source"
+    ]
+  },
+  {
+    "name": "Persian digits",
+    "source": "Fund it with 10 GEN.",
+    "translation": "آن را با ۱۰ GEN شارژ کنید.",
+    "problems": []
+  },
+  {
+    "name": "Arabic-Indic digits",
+    "source": "Wait 48 hours.",
+    "translation": "انتظر ٤٨ ساعة.",
+    "problems": []
+  },
+  {
+    "name": "thousands separators differ by language",
+    "source": "A section holds at most 2,500 characters.",
+    "translation": "Ein Abschnitt enthält höchstens 2.500 Zeichen.",
+    "problems": []
+  },
+  {
+    "name": "Persian separators",
+    "source": "A section holds at most 2,500 characters.",
+    "translation": "هر بخش حداکثر ۲٬۵۰۰ نویسه دارد.",
+    "problems": []
+  },
+  {
+    "name": "a number repeated once too few",
+    "source": "Rate 10, pool 10.",
+    "translation": "Tarifa 10, fondo.",
+    "problems": [
+      "number 10 is missing"
+    ]
+  },
+  {
+    "name": "a number inside inline code is code, not a number",
+    "source": "Send `10` units.",
+    "translation": "Envía `10` unidades.",
+    "problems": []
+  },
+  {
+    "name": "a number inside a link is part of the link",
+    "source": "See https://example.com/v2/docs for 3 steps.",
+    "translation": "Consulta https://example.com/v2/docs para 3 pasos.",
+    "problems": []
+  },
+  {
+    "name": "a heading dropped",
+    "source": "# Fees\n\nThe fee is 10 GEN.",
+    "translation": "Gebühren\n\nDie Gebühr beträgt 10 GEN.",
+    "problems": [
+      "the source has 1 heading, the translation has 0"
+    ]
+  },
+  {
+    "name": "a heading kept",
+    "source": "## Fees\n\nThe fee is 10 GEN.",
+    "translation": "## Gebühren\n\nDie Gebühr beträgt 10 GEN.",
+    "problems": []
+  },
+  {
+    "name": "far too short",
+    "source": "Never share your recovery phrase. Anyone who has it can move your funds.",
+    "translation": "No.",
+    "problems": [
+      "the translation is 0.04 times the length of the source, outside 0.40 to 2.50"
+    ]
+  },
+  {
+    "name": "far too long",
+    "source": "Claim it.",
+    "translation": "Reclámalo ahora mismo, antes de que otra persona lo haga, y no lo olvides nunca jamás.",
+    "problems": [
+      "the translation is 9.55 times the length of the source, outside 0.40 to 2.50"
+    ]
+  },
+  {
+    "name": "an unclosed backtick is plain text",
+    "source": "Use the ` key to open the console.",
+    "translation": "Usa la tecla ` para abrir la consola.",
+    "problems": []
+  },
+  {
+    "name": "several problems at once",
+    "source": "# Fees\n\nThe fee is `10` GEN, see https://genlayer.com.",
+    "translation": "Die Gebühr beträgt 100 GEN.",
+    "problems": [
+      "inline code `10` is missing",
+      "link https://genlayer.com is missing",
+      "number 100 is not in the source",
+      "the source has 1 heading, the translation has 0"
+    ]
+  }
+]

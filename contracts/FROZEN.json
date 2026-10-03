@@ -1,0 +1,16 @@
+{
+  "deployments": {
+    "studio-next": {
+      "chain_id": 61997,
+      "deployed_at": "2026-10-03T12:45:54Z",
+      "explorer": "https://explorer-studio-dev.genlayer.com",
+      "faithful": "0x3762367564e2849380A761539E833D0A930D6e8f",
+      "faithful_deployer": "0x9CBCc166D73eC874A163D0d6Ba7483278579fd22",
+      "faithful_file": "contracts/faithful.py",
+      "faithful_sha256": "6a4736b340d213b8b9c31bde057e9e2e97f793cefe8d33af01e336af3c763730",
+      "faithful_tx": "0xada2ee1dc55614ac9c6d070f4cd7c5b8f98549d5cefb9ef0f35a7d3ae8f1fa7f",
+      "rpc": "https://studio-next.genlayer.com/api",
+      "runtime": "py-genlayer:5jycge4q8k23462jtb0b9fyey1s9qz928sz2nbrd9mg4sxqg2qng"
+    }
+  }
+}

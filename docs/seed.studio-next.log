@@ -1,0 +1,36 @@
+opened program 2 with 240 GEN at 12 GEN a section  https://explorer-studio-dev.genlayer.com/tx/0xdab0e2b85d55956efcf0d09c6e6d58017dbc002db86dcc14a6db4c247b80b0fb
+added 4 sections from 14  https://explorer-studio-dev.genlayer.com/tx/0x2543019f83ec3bbcd78ea95efd7cad0d4927c8036c6cb848fd0ff37cb7f639b6
+network-fa-1: claimed section 16 in fa  https://explorer-studio-dev.genlayer.com/tx/0xd257b864da555059cebff416a1dbb58ae480df0a2a9694a150b232b9b19bec3a
+network-fa-1: submitted as 14: PRECHECK_FAILED number 61997 is missing; number 61998 is not in the source  https://explorer-studio-dev.genlayer.com/tx/0x22df393ed296c9f9049f2eff0b0cc961bd3cca411346261d9fefd9dcb9a1a1fc
+network-fa-2: submitted as 15: PENDING   https://explorer-studio-dev.genlayer.com/tx/0x7df850f432a3c4c72b4adecff98c096336c2a5db6d2f8ce15c1e12124562ef0d
+network-fa-2: FAITHFUL  The translation accurately conveys all information including the chain number 61997, the product name 'GenLayer Studio Next' (kept as required by glossary), and the hyperlink text and path, in natural  https://explorer-studio-dev.genlayer.com/tx/0xdb56f953abfcc819fa6a274933d14f4b0a3cce4e84bf9dc72ace99ef22e07d1e
+warning-fa-1: claimed section 15 in fa  https://explorer-studio-dev.genlayer.com/tx/0xf5077cdf5a3aec7572bdce48088b07f8fe4df87dbc7581c327e9588697928fd2
+warning-fa-1: submitted as 16: PENDING   https://explorer-studio-dev.genlayer.com/tx/0x9d1bc861a2d733a499bbedc71b78b5facfbabd2eee30a57d03179b08f82d2b90
+warning-fa-1: FLAWED  The translation softens the absolute prohibition and omits the clause that anyone can read the stored data, changing the warning's strength and completeness.  https://explorer-studio-dev.genlayer.com/tx/0x08826af899152cc8df26efa1dc0e0fa4ce82df40cf5a44383494ed561e1de469
+warning-fa-2: submitted as 17: PENDING   https://explorer-studio-dev.genlayer.com/tx/0x6a746b284986dfee89113344bbae9aadbb1eec6548ce3607871475ea474fc72e
+warning-fa-2: FAITHFUL  The translation accurately conveys all warnings and conditions, uses the required glossary term 'عبارت بازیابی' for 'recovery phrase', and reads naturally for a Persian technical audience.  https://explorer-studio-dev.genlayer.com/tx/0x33b1d1c31c315f9df409e4e35da6ef259f26a6126b2ebcc9f113d9d89e923b84
+claims-fa: claimed section 14 in fa  https://explorer-studio-dev.genlayer.com/tx/0x930d36b78be853171d9343e6bc4a1004ee0d2a01e53f5e8f5696abb6ec3b3438
+claims-fa: submitted as 18: PENDING   https://explorer-studio-dev.genlayer.com/tx/0x51013d4e2331a99c5c96cddaab42fc345acf4e42893047ee9696f45f9d32f457
+claims-fa: FLAWED  The translation incorrectly translates 'reserves one rate from the pool' to 'نرخ یک بخش را از صندوق کنار می‌گذارد' which changes the meaning, as 'rate' is mistranslated and the concept of a pool is no  https://explorer-studio-dev.genlayer.com/tx/0xdb197d6abb8520f2c9808382917b8dacaa524c75bbf3b5695636b8f4047cd208
+wrong-fa: claimed section 17 in fa  https://explorer-studio-dev.genlayer.com/tx/0x576bc940456c9d908adab7e8266c7ddc9d730629e4f484dfd4264ed6471b8a71
+wrong-fa: submitted as 19: PENDING   https://explorer-studio-dev.genlayer.com/tx/0x5f9a5accd96f198217df17cd6ca8f44adc1f2a327076d0eab0dd5eb4cb3420c7
+wrong-fa: FAITHFUL  The Persian translation preserves the source meaning, keeps the heading 'WRONG LANGUAGE' as required, and uses the glossary term 'رزرو' for 'claim'.  https://explorer-studio-dev.genlayer.com/tx/0xba10f40ee3eb59c547cdaff25dd043b5f3173e62f1967c83aaa43c3bdbc944a4
+claims-es: claimed section 14 in es  https://explorer-studio-dev.genlayer.com/tx/0x558b18fcaec50a680e585315ac07fc1181187921612d20fb5d10d89eb6dd4678
+claims-es: submitted as 20: PENDING   https://explorer-studio-dev.genlayer.com/tx/0x422eff6713b807f93be42e48f5cfb2c2ed20918e9dfcc7f38e3d3b6c079ae8d9
+claims-es: FLAWED  The last sentence translates 'closing' as 'cierre el programa' (close the program/application) instead of simply 'cerrar' or 'cierre' in the context of closing a section/submission, adding the word 'p  https://explorer-studio-dev.genlayer.com/tx/0x4a3e79554d78a2ed31e2bf6aea7f1f8fd09e54a76d537e3a4585ce5f271fa049
+warning-es: claimed section 15 in es  https://explorer-studio-dev.genlayer.com/tx/0xd3e14d400f6bd2c29ed2a6074dc268708f1015cd4fa69ff7dfbb19d314be12bf
+warning-es: submitted as 21: PENDING   https://explorer-studio-dev.genlayer.com/tx/0x29d57117bd9f6f18c037a0f3dce31afcb7e8024726006d758f97a93db05f2c2b
+warning-es: FAITHFUL  The translation accurately conveys all warnings and conditions, uses the required glossary term 'frase de recuperación', and reads naturally for a Spanish-speaking technical audience.  https://explorer-studio-dev.genlayer.com/tx/0x349535b038893131eb481dff37122d35948cb4c25f5650adab910b47455fc6fc
+wrong-es: claimed section 17 in es  https://explorer-studio-dev.genlayer.com/tx/0x74d6ef38049abce5c377c30e22c8fab0c1e2200caf6fc16669f7fa0923fb6b13
+wrong-es: submitted as 22: PENDING   https://explorer-studio-dev.genlayer.com/tx/0x9918f55012ade284917d170fef0414045770d984b38ff772e9d395eb6b28bf93
+wrong-es: FAITHFUL  The translation preserves the meaning and structure, keeps “WRONG LANGUAGE” as required, and uses the glossary term “reserva” for “claim.”  https://explorer-studio-dev.genlayer.com/tx/0x9475a2854b15bd66898ba9ec569a763efc47070c2183faed696adfde8a5ada7e
+network-de: claimed section 16 in de  https://explorer-studio-dev.genlayer.com/tx/0xe6b99d6dd45c54a2cacf82c03dc9af7aeb9680c038be63e74224b68b7ec71f16
+network-de: submitted as 23: PENDING   https://explorer-studio-dev.genlayer.com/tx/0xe4c7acf8aceb06a7bc6f2fe5eef085e4f9b5db02892bac27bda98c2f62e58b68
+network-de: FAITHFUL  The translation preserves all meanings, numbers, and glossary terms; only a minor case change in 'chain' does not affect the content.  https://explorer-studio-dev.genlayer.com/tx/0x710d90b38cbdea9b1cd81a5d696e489f304958b78edc664eea45e2aaf713937c
+seed_translator_fa withdrew 36.0 GEN  https://explorer-studio-dev.genlayer.com/tx/0x76d2a53a0e0c8c8e0456d13ef5eafb36755e350820ae23c21a372f891b975be6
+program 2: pool 168.0 GEN, paid 72.0 GEN, approved {'fa': 3, 'es': 2, 'de': 1}
+claims-fa-2: submitted as 24: PENDING   https://explorer-studio-dev.genlayer.com/tx/0xd0fed598a30a5fa6fe632a5bc99ef123c3b138740a3be48e5713c428e3cf5793
+claims-fa-2: FLAWED  The word "close" was mistranslated as "بستنی" (ice cream), altering the meaning of the third bullet.  https://explorer-studio-dev.genlayer.com/tx/0x23b00a81475a5669e3b388f0d02f90800ad8fa74cecc8cd58711bb860844fe4f
+claims-es-2: submitted as 25: PENDING   https://explorer-studio-dev.genlayer.com/tx/0xd2c57e8a19a6d01b09f12ea45a55653a786dcb9477964491ab2f12e4c71541bb
+claims-es-2: FAITHFUL  The translation preserves all meanings, numbers, and conditions, correctly uses the glossary term "reserva" and is natural Spanish.  https://explorer-studio-dev.genlayer.com/tx/0x2e9d72a4e89ec09882ebea76e939faa16e47ef163020288c9e1240b964bede0d
+program 2: pool 156.0 GEN, paid 84.0 GEN, approved {'fa': 3, 'es': 3, 'de': 1}

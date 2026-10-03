@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Faithful: the site's mark, a source and its translation side by side, line for line. Blue #60A5FA on the dark
+       ground. Everything that matters sits inside the central circle, so a circular crop keeps it whole. -->
+  <rect width="512" height="512" fill="#0b0b0e"/>
+  <rect x="106" y="106" width="300" height="300" rx="46" fill="#60a5fa"/>
+  <rect x="151" y="190" width="88" height="24" rx="7" fill="#04172b"/>
+  <rect x="151" y="244" width="66" height="24" rx="7" fill="#04172b"/>
+  <rect x="151" y="298" width="80" height="24" rx="7" fill="#04172b"/>
+  <rect x="254" y="178" width="4" height="156" rx="2" fill="#04172b"/>
+  <rect x="273" y="190" width="88" height="24" rx="7" fill="#04172b"/>
+  <rect x="295" y="244" width="66" height="24" rx="7" fill="#04172b"/>
+  <rect x="281" y="298" width="80" height="24" rx="7" fill="#04172b"/>
+</svg>

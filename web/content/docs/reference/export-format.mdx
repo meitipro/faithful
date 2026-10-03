@@ -1,0 +1,80 @@
+---
+title: Export format and docs sync
+description: The approved translations of a program, in order, as Markdown or JSON, for docs pipelines.
+---
+
+Every program has an export per target language: the approved sections in section order. Sections that are not
+approved yet are left out, so the export is always safe to publish.
+
+## Where
+
+| | |
+|---|---|
+| Page | `/export/<program>/<lang>`, with Markdown and JSON tabs, copy and download |
+| Markdown | `GET /api/export/<program>/<lang>` |
+| JSON | `GET /api/export/<program>/<lang>?format=json` |
+| Contract view | `export(program_id, lang)`, readable with no wallet and no fee |
+
+## Markdown
+
+One comment line per section names it and the transaction that judged it, then the approved text as submitted. Angle brackets mark what varies:
+
+```md
+<!-- Faithful export: program <id>, Persian (fa), <approved> of <sections> sections approved. -->
+<!-- Contract 0x3762367564e2849380A761539E833D0A930D6e8f on GenLayer Studio Next, chain 61997. -->
+
+<!-- section <section>, submission <submission>, judged in https://explorer-studio-dev.genlayer.com/tx/<hash> -->
+<the approved Persian text of that section>
+```
+
+## JSON
+
+```json
+{
+  "program": "<id>",
+  "lang": "fa",
+  "contract": "0x3762367564e2849380A761539E833D0A930D6e8f",
+  "chain_id": 61997,
+  "sections": [
+    { "section_id": "<section>", "index": "<position in the program>", "title": "…", "text": "…", "submission_id": "<submission>", "translator": "0x…", "judged_at": "<seconds>", "judge_tx": "0x…" }
+  ]
+}
+```
+
+The judge transaction comes from the explorer's index of the contract's transactions; the contract cannot know its own
+transaction hashes. Everything else is read from the contract.
+
+## From code
+
+{/* include: web/examples/read-export.mjs */}
+```js title="web/examples/read-export.mjs"
+/**
+ * Read the approved translations of a program in one language. Reads need no wallet and no fee.
+ *
+ *   node examples/read-export.mjs <program id> <lang>
+ *
+ * This file is the sample on the docs pages "Quickstart" and "Export format and
+ * docs sync", copied in by scripts/gen_docs.py.
+ */
+import { createClient } from 'genlayer-js';
+import { studioDevnet } from 'genlayer-js/chains';
+
+const FAITHFUL = '0x3762367564e2849380A761539E833D0A930D6e8f';
+const chain = { ...studioDevnet, id: 61997, rpcUrls: { default: { http: ['https://studio-next.genlayer.com/api'] } } };
+
+const client = createClient({ chain });
+const [program = '1', lang = 'fa'] = process.argv.slice(2);
+const out = JSON.parse(await client.readContract({ address: FAITHFUL, functionName: 'export', args: [Number(program), lang] }));
+
+if (!out.found) throw new Error('no such program or language');
+console.log(`${out.lang_name}: ${out.approved} of ${out.sections} sections approved`);
+for (const item of out.items) console.log(`\n<!-- section ${item.section_id}, submission ${item.submission_id} -->\n${item.text}`);
+```
+{/* end include */}
+
+## Docs sync
+
+A docs site can fetch the Markdown export in its build and write it next to the source page. Because the export holds
+only approved sections in source order, a section that is not translated yet is simply missing; fall back to the
+source for it. A GitHub action that adds changed sections and opens a pull request with the export is a stretch goal
+of the build spec and is not built.

@@ -1,0 +1,41 @@
+---
+title: The three verdicts and revisions
+description: What FAITHFUL, FLAWED and WRONG LANGUAGE do to the money and the claim.
+---
+
+A submission that passes the exact checks waits for `judge`. Validators each ask their own model the
+[judge prompt](/docs/more/judge-prompt) and agree on one label. Only the label crosses consensus; the reason sentence
+is the leader's, stored for the translator, and never compared.
+
+## FAITHFUL
+
+Same meaning, nothing added or left out, every warning, condition and number preserved, glossary followed, and
+natural enough that a native reader of technical docs would not stumble.
+
+- The reserved rate moves from the pool to the translator's balance.
+- The section is approved in that language and joins the export.
+
+## FLAWED
+
+Any change of meaning, omission, addition, softened or reversed warning, wrong glossary term, or wording so unnatural
+it confuses. The judge names the first problem it found.
+
+- The first FLAWED verdict keeps the claim with the translator for **one revision**, within the same 48 hours.
+- A second FLAWED verdict releases the claim. The reserve returns to the pool and the section reopens for everyone
+  else.
+
+## WRONG LANGUAGE
+
+The text is not in the target language, or is not a translation of the source. The claim is released at once.
+
+## Somewhere to go, and no asking again until it suits
+
+A translator released from a section by a verdict may not claim that same section in that language again: otherwise
+the same text could be resubmitted until a committee said yes. They can claim every other section, and the released
+one is open to every other translator. A claim that simply expired carries no such bar.
+
+## When validators do not agree
+
+If the committee cannot agree on one label, the transaction ends without a verdict and nothing changes: the
+submission is still waiting, and anyone can call `judge` again for a new round. A model answer that cannot be read is
+retried once and then fails the round; it never becomes a verdict.

@@ -1,0 +1,37 @@
+---
+title: Glossaries
+description: Required renderings per language, terms that stay as written, and what the judge sees.
+---
+
+A glossary maps a source term to how it must appear in each target language. It is set when the program opens and is
+the same for every section.
+
+```json
+{
+  "recovery phrase": { "fa": "عبارت بازیابی", "es": "frase de recuperación" },
+  "validator": { "de": "keep" },
+  "Intelligent Contract": "keep"
+}
+```
+
+- A term mapped to `"keep"` stays exactly as written in every target language.
+- A term mapped to an object gives a rendering, or `"keep"`, per language. A language with no entry has no rule for
+  that term.
+- At most 40 terms; each term and rendering at most 60 characters, one line. Terms are unique ignoring case, and a
+  rendering may only name the program's own target languages.
+
+## What the judge sees
+
+Only the terms that appear in the section's source, compared ignoring case, with the rendering for the target
+language. Every term and rendering is fenced like the texts, so a glossary entry cannot close its block. The editor
+shows the same list under "Glossary in this section".
+
+A wrong glossary term is one of the problems the rubric names, so a localised term the glossary says to keep comes
+back FLAWED. The [evaluation](/docs/more/evaluation) has a case where that went further than the spec expected: the
+German plural *Validatoren* for a kept *validator* was judged FLAWED too. If inflection is acceptable for a term in
+your project, say so by giving the inflected form as its rendering rather than `"keep"`.
+
+## Style and tone
+
+Faithful judges meaning and readability, not house style. A project with strong tone rules can state required
+renderings for its key terms; anything else is a style choice, and style choices that keep the meaning are accepted.

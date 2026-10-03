@@ -1,0 +1,48 @@
+---
+title: Introduction
+description: Paid translations the maintainer can trust, on GenLayer Studio Next.
+---
+
+Faithful is a translation program for documentation. A maintainer funds a program and adds the docs as short
+sections; translators claim a section in one language and translate it; exact code checks that code, numbers, links
+and headings survived; and GenLayer validators compare meaning across two languages the maintainer may not read. A
+faithful section is paid at once. A flawed one says what is wrong.
+
+<Callout title="The question validators answer">
+  Does a reader of the translation get exactly what a reader of the source gets?
+</Callout>
+
+## Who it is for
+
+- **Maintainers** who want their docs in more languages and cannot check the result themselves. They fund a program,
+  import their docs, and export checked translations for their docs site.
+- **Translators**, including community members who already translate for free. They claim, translate with live
+  checks, and are paid the moment a section is judged faithful, with a public record of accepted work.
+- **Readers**, who get docs in their language that say what the original says, warnings included.
+
+## What is judged, and what is not
+
+The parts that do not need judgment are never judged. Code blocks, inline code, links, numbers and headings are
+compared by code inside `submit`, before any model runs; a translation that changes a fee or a command is caught with
+certainty. The judge is left with the one question models answer most consistently: did the meaning survive?
+
+| Verdict | Meaning | Money | Record |
+|---|---|---|---|
+| FAITHFUL | Same meaning, nothing added or missing, warnings and numbers kept, glossary followed, natural to read | The rate is credited to the translator | Section approved for that language |
+| FLAWED | A change of meaning, an omission, an addition, a softened warning, a wrong glossary term, or confusing wording | Nothing yet; one revision within the claim | The first problem is shown |
+| WRONG LANGUAGE | Not in the target language, or not a translation of the source | Nothing | Claim released |
+| PRE-CHECK FAILED | Code, numbers, links or headings differ from the source | Nothing, and no judge runs | The exact difference is shown |
+
+## What Faithful is not
+
+- Not a machine translator. Translators can use any tool they like; the verdict is about the result.
+- Not a style guide. Style choices that keep the meaning are accepted.
+- Not a docs host. It exports checked translations to whatever docs site the project uses.
+- Not for long documents in one go. Sections are at most 2,500 characters, so each judgment is focused.
+
+## Where to go next
+
+- [Quickstart: translate your first section](/docs/quickstart)
+- [Start a program](/docs/start-a-program)
+- [The exact pre-checks](/docs/concepts/exact-pre-checks)
+- [Evaluation results with transactions](/docs/more/evaluation)

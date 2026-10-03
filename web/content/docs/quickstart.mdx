@@ -1,0 +1,200 @@
+---
+title: 'Quickstart: translate your first section'
+description: Claim a section, translate it, pass the checks and get paid, in about ten minutes.
+---
+
+<Callout title="Note">Code, numbers and links must match the source exactly. The editor checks them as you type.</Callout>
+
+## Claim a section
+
+<Steps>
+  <Step>
+    Open [Programs](/programs) and pick a program. Its board shows every section as a row and every language as a
+    column, each cell a word: Open, Claimed, Judging, OK, Flawed or Pre-check.
+  </Step>
+  <Step>
+    Press an **Open** cell in a language you write. The editor shows the source on one side and your translation on the
+    other.
+  </Step>
+  <Step>
+    Press **Claim for 48 hours**. The site walks you through connecting a wallet, switching to Studio Next (chain
+    61997) and getting free test GEN, then asks you to sign. The section's rate is now reserved from the pool for you.
+  </Step>
+</Steps>
+
+You can hold three claims at once. A claim not submitted within 48 hours reopens for everyone.
+
+<Callout type="warn" title="Warning">
+  Never paste a private key or recovery phrase into a translation. Everything you submit is stored on chain, where anyone can read it.
+</Callout>
+
+## Translate with checks
+
+Write in your own script: right-to-left languages and native digits are supported, and digits are normalised before
+numbers are compared. The panel on the right runs the same exact checks as the contract, as you type:
+
+- code blocks and inline code identical,
+- every link identical,
+- the same numbers,
+- the same number of headings,
+- a length between 0.4 and 2.5 times the source.
+
+Only the glossary terms that appear in this section are listed under the checks. See
+[Exact pre-checks](/docs/concepts/exact-pre-checks) and [Glossaries](/docs/concepts/glossaries).
+
+## Submit and judge
+
+Press **Submit for checking**. It takes two signatures: `submit`, where the contract runs the exact checks, and
+`judge`, where validators compare meaning. The page says "Validators are comparing the texts" with the transaction
+link while they work, usually for about a minute.
+
+- **FAITHFUL**: the rate is credited to you and the section joins the export.
+- **FLAWED**: the first problem is shown, and you have one revision within the same claim.
+- **WRONG LANGUAGE**: the claim is released.
+
+Withdraw from the [translator page](/me) whenever you like.
+
+## From code
+
+The same steps with genlayer-js. In a browser the provider is `window.ethereum`; this sample signs for a local test
+account so it runs from a terminal, and it is the file in the repository, not a copy:
+
+{/* include: web/examples/translate-a-section.mjs */}
+```js title="web/examples/translate-a-section.mjs"
+/**
+ * Claim a section, submit a translation and ask the validators, with genlayer-js and a wallet.
+ *
+ *   node examples/translate-a-section.mjs <account name> <section id> <lang> <translation file>
+ *
+ * In a browser the provider is window.ethereum and the account is the one the
+ * wallet connected. Here a stand-in wallet signs for a local test account, so
+ * the same code runs from a terminal. This file is the sample on the docs page
+ * "Quickstart", copied in by scripts/gen_docs.py.
+ */
+import { readFileSync } from 'node:fs';
+
+import { createClient } from 'genlayer-js';
+import { studioDevnet } from 'genlayer-js/chains';
+
+import { standinWallet } from '../scripts/standin-wallet.mjs';
+
+const FAITHFUL = '0x3762367564e2849380A761539E833D0A930D6e8f';
+const chain = { ...studioDevnet, id: 61997, rpcUrls: { default: { http: ['https://studio-next.genlayer.com/api'] } } };
+
+const [name = 'docs_example', section = '1', lang = 'fa', file] = process.argv.slice(2);
+const { address, provider } = standinWallet(name); // browser: window.ethereum
+const client = createClient({ chain, account: address, provider });
+
+/** One write: a fee deposit from the SDK's estimate, then the success test. */
+async function write(functionName, args, rotations = 1) {
+  const estimate = await client.estimateTransactionFees({
+    leaderTimeunitsAllocation: 600,
+    validatorTimeunitsAllocation: 600,
+    totalMessageFees: 0,
+    rotations: [rotations],
+  });
+  const hash = await client.writeContract({
+    address: FAITHFUL,
+    functionName,
+    args,
+    value: 0n,
+    fees: { distribution: estimate.distribution, feeValue: estimate.feeValue },
+  });
+  const receipt = await client.waitForTransactionReceipt({ hash, waitUntil: 'decided', interval: 4000, retries: 120 });
+  const leader = receipt.consensus_data.leader_receipt[0];
+  // ACCEPTED is not success on its own: a refusal is accepted too. Check the result.
+  if (leader.execution_result !== 'SUCCESS' || leader.result.status !== 'return') {
+    throw new Error(`${functionName} refused: ${JSON.stringify(leader.result.payload)}`);
+  }
+  return { hash, returned: leader.result.payload.readable };
+}
+
+// 1. Claim one section in one language for 48 hours.
+const claim = await write('claim', [Number(section), lang]);
+
+// 2. Submit. The exact checks run inside submit; a difference is stored, not judged.
+const submitted = await write('submit', [Number(section), lang, readFileSync(file, 'utf8')]);
+const id = Number(submitted.returned);
+const view = JSON.parse(await client.readContract({ address: FAITHFUL, functionName: 'get_section', args: [Number(section)] }));
+const mine = view.submissions.find((s) => s.id === id);
+if (mine.verdict === 'PRECHECK_FAILED') {
+  console.log(JSON.stringify({ claim: claim.hash, submit: submitted.hash, id, problems: mine.problems }));
+  process.exit(1);
+}
+
+// 3. Ask the validators. judge may rotate to a second committee, so it allows more rotations.
+const judged = await write('judge', [id], 3);
+console.log(JSON.stringify({ claim: claim.hash, submit: submitted.hash, judge: judged.hash, id, verdict: judged.returned }));
+```
+{/* end include */}
+
+Reading the approved translations needs no wallet:
+
+<Tabs items={['JavaScript', 'Python']}>
+  <Tab value="JavaScript">
+{/* include: web/examples/read-export.mjs */}
+```js title="web/examples/read-export.mjs"
+/**
+ * Read the approved translations of a program in one language. Reads need no wallet and no fee.
+ *
+ *   node examples/read-export.mjs <program id> <lang>
+ *
+ * This file is the sample on the docs pages "Quickstart" and "Export format and
+ * docs sync", copied in by scripts/gen_docs.py.
+ */
+import { createClient } from 'genlayer-js';
+import { studioDevnet } from 'genlayer-js/chains';
+
+const FAITHFUL = '0x3762367564e2849380A761539E833D0A930D6e8f';
+const chain = { ...studioDevnet, id: 61997, rpcUrls: { default: { http: ['https://studio-next.genlayer.com/api'] } } };
+
+const client = createClient({ chain });
+const [program = '1', lang = 'fa'] = process.argv.slice(2);
+const out = JSON.parse(await client.readContract({ address: FAITHFUL, functionName: 'export', args: [Number(program), lang] }));
+
+if (!out.found) throw new Error('no such program or language');
+console.log(`${out.lang_name}: ${out.approved} of ${out.sections} sections approved`);
+for (const item of out.items) console.log(`\n<!-- section ${item.section_id}, submission ${item.submission_id} -->\n${item.text}`);
+```
+{/* end include */}
+  </Tab>
+  <Tab value="Python">
+{/* include: web/examples/read_program.py */}
+```python title="web/examples/read_program.py"
+"""
+Read a program's pool and progress from Python, with genlayer-py 0.19.0rc2.
+
+    python web/examples/read_program.py <program id>
+
+genlayer-py reads through an account even for views, so a throwaway one is
+made here; it is never funded and never signs. This file is the Python sample
+on the docs page "Start a program", copied in by scripts/gen_docs.py.
+"""
+
+import json
+import sys
+
+from genlayer_py import create_account, create_client
+from genlayer_py.chains import studio_devnet
+
+FAITHFUL = "0x3762367564e2849380A761539E833D0A930D6e8f"
+studio_devnet.rpc_urls = {"default": {"http": ["https://studio-next.genlayer.com/api"]}}
+
+reader = create_account()
+client = create_client(chain=studio_devnet, account=reader)
+program_id = int(sys.argv[1] if len(sys.argv) > 1 else 1)
+p = json.loads(client.read_contract(address=FAITHFUL, function_name="get_program", args=[program_id], account=reader))
+
+if not p["found"]:
+    raise SystemExit("no such program")
+print(json.dumps({
+    "name": p["name"],
+    "rate_gen": int(p["rate"]) / 10**18,
+    "pool_gen": int(p["pool"]) / 10**18,
+    "payable_sections": p["payable_sections"],
+    "approved": {row["code"]: f'{row["approved"]}/{p["sections"]}' for row in p["langs"]},
+}, ensure_ascii=False))
+```
+{/* end include */}
+  </Tab>
+</Tabs>

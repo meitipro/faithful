@@ -1,0 +1,40 @@
+---
+title: Exact pre-checks
+description: What code guards before any model runs, and how numbers are compared across scripts.
+---
+
+The most dangerous mistakes in technical docs are a changed number, a broken command and a dead link. None of them
+needs judgment, so none of them is judged. `submit` compares the translation with its source by code, on every
+validator, before the judge is ever asked.
+
+| Check | Rule |
+|---|---|
+| Code blocks | every fenced block identical, character for character, in order |
+| Inline code | every span identical, in any order, because word order moves between languages |
+| Links | every `http` and `https` link identical, in any order; trailing sentence punctuation is not part of a link |
+| Numbers | the same numbers, counted with repeats, after digit normalisation |
+| Headings | the same number of Markdown headings |
+| Length | the translation is between 0.4 and 2.5 times the length of the source |
+
+## Digits
+
+Persian digits (۰ to ۹) and Arabic-Indic digits (٠ to ٩) are converted to ASCII before numbers are compared, so a
+translator writes numbers the way their language does. Numbers are read as runs of digits, so `2,500`, the German
+`2.500` and the Persian `۲٬۵۰۰` all read as 2 and 500. Digits inside code and links belong to the code or the link.
+
+## What a failure does
+
+A translation that fails is stored as `PRECHECK_FAILED` with every difference named, for example:
+
+```text
+number 10 is missing; number 100 is not in the source
+```
+
+No judge runs, nothing is paid, the claim stays with the translator and no attempt is used. The translator fixes the
+difference and submits again within the claim.
+
+## One implementation, three places
+
+`contracts/precheck.py` is the source of truth. The contract carries the same code byte for byte (a test runs
+`scripts/gen_precheck.py --check`), and the editor runs a line-by-line port, `web/lib/precheck.mjs`. Both are held to
+the same cases in `tests/precheck_cases.json`, so the live checks a translator sees are the ones `submit` runs.
