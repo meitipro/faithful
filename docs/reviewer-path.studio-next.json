@@ -1,0 +1,431 @@
+{
+  "runs": {
+    "rp1": {
+      "site": "https://faithful-genlayer.vercel.app",
+      "contract": "0x3762367564e2849380A761539E833D0A930D6e8f",
+      "started": "2026-10-03T13:50:29.941Z",
+      "steps": [
+        {
+          "at": "2026-10-03T13:50:38.854Z",
+          "key": "faucet-mia",
+          "pass": true,
+          "http": 200,
+          "sent_address": "0xcb954076305b82c738d5124ae450a7067aaad9ae",
+          "answered_address": "0xCb954076305b82c738D5124aE450A7067aaAD9Ae",
+          "before": "0",
+          "after": "20000000000000000000",
+          "read_after": "20000000000000000000"
+        },
+        {
+          "at": "2026-10-03T13:50:41.471Z",
+          "key": "faucet-tom",
+          "pass": true,
+          "http": 200,
+          "sent_address": "0x1f37fc3d5cead8301d701ce1c9b6d558513017ca",
+          "answered_address": "0x1F37fC3d5ceAD8301d701ce1C9b6d558513017ca",
+          "before": "0",
+          "after": "20000000000000000000",
+          "read_after": "20000000000000000000"
+        },
+        {
+          "at": "2026-10-03T13:50:55.769Z",
+          "key": "open",
+          "method": "create_program",
+          "account": "review_mia_rp1",
+          "from": "0xCb954076305b82c738D5124aE450A7067aaAD9Ae",
+          "args": [
+            "Reviewer path rp1",
+            "en",
+            [
+              "fa"
+            ],
+            "{\"recovery phrase\": {\"fa\": \"عبارت بازیابی\"}}",
+            "2000000000000000000"
+          ],
+          "value": "5000000000000000000",
+          "hash": "0x839fc726af5c20286a989c9d4fd06368810ed9343e27c58659cb30caa55f350a",
+          "expect": "ok",
+          "ok": true,
+          "pass": true,
+          "status": "ACCEPTED",
+          "execution": "SUCCESS",
+          "returned": 3,
+          "refusal": null,
+          "seconds_to_decision": 14
+        },
+        {
+          "at": "2026-10-03T13:51:05.347Z",
+          "key": "sections",
+          "method": "add_sections",
+          "account": "review_mia_rp1",
+          "from": "0xCb954076305b82c738D5124aE450A7067aaAD9Ae",
+          "args": [
+            3,
+            "[\"The fee is 10 GEN.\",\"Never share your recovery phrase. Anyone who has it can move your funds.\"]"
+          ],
+          "value": "0",
+          "hash": "0x5790fbffdcc684d5c6a98a1c83db3322ea70678acd5995cbae593f42195fde0e",
+          "expect": "ok",
+          "ok": true,
+          "pass": true,
+          "status": "ACCEPTED",
+          "execution": "SUCCESS",
+          "returned": 18,
+          "refusal": null,
+          "seconds_to_decision": 10
+        },
+        {
+          "at": "2026-10-03T13:51:22.761Z",
+          "key": "submit-without-claim",
+          "method": "submit",
+          "account": "review_tom_rp1",
+          "from": "0x1F37fC3d5ceAD8301d701ce1C9b6d558513017ca",
+          "args": [
+            18,
+            "fa",
+            "18 characters"
+          ],
+          "value": "0",
+          "hash": "0xdf3c9771da1403926b751f44249938291b4a352446fe85cd59609a69e1cd7a59",
+          "expect": "refused",
+          "ok": false,
+          "pass": true,
+          "status": "ACCEPTED",
+          "execution": "ERROR",
+          "returned": null,
+          "refusal": "you do not hold a claim on this section in fa",
+          "seconds_to_decision": 17
+        },
+        {
+          "at": "2026-10-03T13:51:36.001Z",
+          "key": "claim-1",
+          "method": "claim",
+          "account": "review_tom_rp1",
+          "from": "0x1F37fC3d5ceAD8301d701ce1C9b6d558513017ca",
+          "args": [
+            18,
+            "fa"
+          ],
+          "value": "0",
+          "hash": "0x70f590946d5e61d0cd8cea86190dafb44d439a971ad8c126545e1e8129c85e1a",
+          "expect": "ok",
+          "ok": true,
+          "pass": true,
+          "status": "ACCEPTED",
+          "execution": "SUCCESS",
+          "returned": 1791208284,
+          "refusal": null,
+          "seconds_to_decision": 13
+        },
+        {
+          "at": "2026-10-03T13:51:48.180Z",
+          "key": "submit-1-wrong",
+          "method": "submit",
+          "account": "review_tom_rp1",
+          "from": "0x1F37fC3d5ceAD8301d701ce1C9b6d558513017ca",
+          "args": [
+            18,
+            "fa",
+            "19 characters"
+          ],
+          "value": "0",
+          "hash": "0x18645093cb913bc97114dc4235d43603f8c8c2fbc6263ec05930f9f498c1446e",
+          "expect": "ok",
+          "ok": true,
+          "pass": true,
+          "status": "ACCEPTED",
+          "execution": "SUCCESS",
+          "returned": 26,
+          "refusal": null,
+          "seconds_to_decision": 12
+        },
+        {
+          "at": "2026-10-03T13:51:49.224Z",
+          "key": "read-precheck",
+          "pass": true,
+          "verdict": "PRECHECK_FAILED",
+          "problems": [
+            "number 10 is missing",
+            "number 100 is not in the source"
+          ]
+        },
+        {
+          "at": "2026-10-03T13:52:01.517Z",
+          "key": "submit-1",
+          "method": "submit",
+          "account": "review_tom_rp1",
+          "from": "0x1F37fC3d5ceAD8301d701ce1C9b6d558513017ca",
+          "args": [
+            18,
+            "fa",
+            "18 characters"
+          ],
+          "value": "0",
+          "hash": "0xc1024cd919911be498e18779489cfd875de7643648d508f29845defc1da5f71b",
+          "expect": "ok",
+          "ok": true,
+          "pass": true,
+          "status": "ACCEPTED",
+          "execution": "SUCCESS",
+          "returned": 27,
+          "refusal": null,
+          "seconds_to_decision": 12
+        },
+        {
+          "at": "2026-10-03T13:52:23.562Z",
+          "key": "judge-1",
+          "method": "judge",
+          "account": "review_tom_rp1",
+          "from": "0x1F37fC3d5ceAD8301d701ce1C9b6d558513017ca",
+          "args": [
+            27
+          ],
+          "value": "0",
+          "hash": "0xa19024239c2b49e4701684cbcc043cd9d5b1f6150f96ddcc8536be826cda0602",
+          "expect": "ok",
+          "ok": true,
+          "pass": true,
+          "status": "ACCEPTED",
+          "execution": "SUCCESS",
+          "returned": "FAITHFUL",
+          "refusal": null,
+          "seconds_to_decision": 22
+        },
+        {
+          "at": "2026-10-03T13:52:25.061Z",
+          "key": "read-verdict-1",
+          "pass": true,
+          "verdict": "FAITHFUL",
+          "reason": "The translation accurately conveys the same meaning as the source, preserving the number (10) and the currency/token name (GEN) unchanged, with natural Persian phrasing.",
+          "credited": "2000000000000000000"
+        },
+        {
+          "at": "2026-10-03T13:53:01.575Z",
+          "key": "claim-2",
+          "method": "claim",
+          "account": "review_tom_rp1",
+          "from": "0x1F37fC3d5ceAD8301d701ce1C9b6d558513017ca",
+          "args": [
+            19,
+            "fa"
+          ],
+          "value": "0",
+          "hash": "0xce40007bf80c76f4fd1639f952b77ffa5cbc8095bf46f1107385171108555aeb",
+          "expect": "ok",
+          "ok": true,
+          "pass": true,
+          "status": "ACCEPTED",
+          "execution": "SUCCESS",
+          "returned": 1791208347,
+          "refusal": null,
+          "seconds_to_decision": 37
+        },
+        {
+          "at": "2026-10-03T13:53:14.284Z",
+          "key": "close-while-open",
+          "method": "close",
+          "account": "review_mia_rp1",
+          "from": "0xCb954076305b82c738D5124aE450A7067aaAD9Ae",
+          "args": [
+            3
+          ],
+          "value": "0",
+          "hash": "0xa9aefd9175b10ae00923bcc748ddc934472a3b946c2a27d9e491e5a421e33bfd",
+          "expect": "refused",
+          "ok": false,
+          "pass": true,
+          "status": "ACCEPTED",
+          "execution": "ERROR",
+          "returned": null,
+          "refusal": "1 claim(s) still open; close once they are judged or expire",
+          "seconds_to_decision": 13
+        },
+        {
+          "at": "2026-10-03T13:53:27.153Z",
+          "key": "submit-2",
+          "method": "submit",
+          "account": "review_tom_rp1",
+          "from": "0x1F37fC3d5ceAD8301d701ce1C9b6d558513017ca",
+          "args": [
+            19,
+            "fa",
+            "110 characters"
+          ],
+          "value": "0",
+          "hash": "0x276e43047dcba9b62b4946f8528d20d1e2f379af2e319aef9ae70f9b3fca6322",
+          "expect": "ok",
+          "ok": true,
+          "pass": true,
+          "status": "ACCEPTED",
+          "execution": "SUCCESS",
+          "returned": 28,
+          "refusal": null,
+          "seconds_to_decision": 13
+        },
+        {
+          "at": "2026-10-03T13:53:52.485Z",
+          "key": "judge-2",
+          "method": "judge",
+          "account": "review_mia_rp1",
+          "from": "0xCb954076305b82c738D5124aE450A7067aaAD9Ae",
+          "args": [
+            28
+          ],
+          "value": "0",
+          "hash": "0x825b16c3e3ed36a8f24d452725e703c55500531ff434fc32f09cbb5e1e53cf32",
+          "expect": "ok",
+          "ok": true,
+          "pass": true,
+          "status": "ACCEPTED",
+          "execution": "SUCCESS",
+          "returned": "FAITHFUL",
+          "refusal": null,
+          "seconds_to_decision": 25
+        },
+        {
+          "at": "2026-10-03T13:53:53.411Z",
+          "key": "read-verdict-2",
+          "pass": true,
+          "verdict": "FAITHFUL",
+          "reason": "The translation accurately conveys the full meaning of the source, uses the required glossary term 'عبارت بازیابی' for 'recovery phrase', preserves both the warning and the consequence, and reads natu",
+          "credited": "2000000000000000000",
+          "judged_by": "0xCb954076305b82c738D5124aE450A7067aaAD9Ae"
+        },
+        {
+          "at": "2026-10-03T13:54:40.420Z",
+          "key": "withdraw",
+          "method": "withdraw",
+          "account": "review_tom_rp1",
+          "from": "0x1F37fC3d5ceAD8301d701ce1C9b6d558513017ca",
+          "args": [],
+          "value": "0",
+          "hash": "0x457be6afa392d5f6663ed423078802973e593f5767ae4e4ceab64ef069ce9bcf",
+          "expect": "ok",
+          "ok": true,
+          "pass": true,
+          "status": "ACCEPTED",
+          "execution": "SUCCESS",
+          "returned": 4000000000000000000,
+          "refusal": null,
+          "seconds_to_decision": 12,
+          "final_status": "FINALIZED"
+        },
+        {
+          "at": "2026-10-03T13:54:41.139Z",
+          "key": "balance-withdraw",
+          "pass": false,
+          "paid_by_contract": "4000000000000000000",
+          "returned": 4000000000000000000,
+          "before": "19999448754999980239",
+          "after": "23999322449499977416",
+          "fee_paid": "51005000000016941",
+          "fee_refunded": "50853694500014118",
+          "fee_status": "settled",
+          "expected": "23999297449499977416",
+          "difference": "25000000000000"
+        },
+        {
+          "at": "2026-10-03T13:54:48.469Z",
+          "key": "withdraw-again",
+          "method": "withdraw",
+          "account": "review_tom_rp1",
+          "from": "0x1F37fC3d5ceAD8301d701ce1C9b6d558513017ca",
+          "args": [],
+          "value": "0",
+          "hash": "0x06d525ff5091004cce97f128f4e4af0d36758a9d73ae88923fa0afbf9dc2fbda",
+          "expect": "refused",
+          "ok": false,
+          "pass": true,
+          "status": "ACCEPTED",
+          "execution": "ERROR",
+          "returned": null,
+          "refusal": "nothing to withdraw",
+          "seconds_to_decision": 7
+        },
+        {
+          "at": "2026-10-03T13:55:29.140Z",
+          "key": "close",
+          "method": "close",
+          "account": "review_mia_rp1",
+          "from": "0xCb954076305b82c738D5124aE450A7067aaAD9Ae",
+          "args": [
+            3
+          ],
+          "value": "0",
+          "hash": "0x3a034bda436a65cd766722dce7be750e8b41fe3917615eb4aebaadc9393e7e95",
+          "expect": "ok",
+          "ok": true,
+          "pass": true,
+          "status": "ACCEPTED",
+          "execution": "SUCCESS",
+          "returned": 1000000000000000000,
+          "refusal": null,
+          "seconds_to_decision": 8,
+          "final_status": "FINALIZED"
+        },
+        {
+          "at": "2026-10-03T13:55:29.827Z",
+          "key": "balance-close",
+          "pass": false,
+          "paid_by_contract": "1000000000000000000",
+          "returned": 1000000000000000000,
+          "before": "14999684495749988708",
+          "after": "15999558190499985885",
+          "fee_paid": "51005000000016941",
+          "fee_refunded": "50853694750014118",
+          "fee_status": "settled",
+          "expected": "15999533190499985885",
+          "difference": "25000000000000"
+        },
+        {
+          "at": "2026-10-03T13:55:30.698Z",
+          "key": "read-program",
+          "pass": true,
+          "funded": "5000000000000000000",
+          "paid": "4000000000000000000",
+          "returned": "1000000000000000000",
+          "pool": "0",
+          "closed": true
+        },
+        {
+          "at": "2026-10-03T13:55:33.872Z",
+          "key": "page-program",
+          "pass": true,
+          "url": "https://faithful-genlayer.vercel.app/p/3",
+          "http": 200
+        },
+        {
+          "at": "2026-10-03T13:55:36.229Z",
+          "key": "page-editor",
+          "pass": true,
+          "url": "https://faithful-genlayer.vercel.app/s/18/fa",
+          "http": 200
+        },
+        {
+          "at": "2026-10-03T13:55:37.574Z",
+          "key": "page-export",
+          "pass": true,
+          "url": "https://faithful-genlayer.vercel.app/api/export/3/fa",
+          "http": 200
+        },
+        {
+          "at": "2026-10-03T13:55:48.671Z",
+          "key": "page-translator",
+          "pass": true,
+          "url": "https://faithful-genlayer.vercel.app/programs",
+          "http": 200
+        }
+      ],
+      "accounts": {
+        "mia": "0xCb954076305b82c738D5124aE450A7067aaAD9Ae",
+        "tom": "0x1F37fC3d5ceAD8301d701ce1C9b6d558513017ca",
+        "nonces_at_start": {
+          "mia": 0,
+          "tom": 0
+        }
+      },
+      "program_id": 3,
+      "finished": "2026-10-03T13:55:48.671Z"
+    }
+  }
+}

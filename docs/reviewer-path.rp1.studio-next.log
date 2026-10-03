@@ -1,0 +1,29 @@
+accounts: Mia 0xCb954076305b82c738D5124aE450A7067aaAD9Ae, Tom 0x1F37fC3d5ceAD8301d701ce1C9b6d558513017ca, nonces at start {"mia":0,"tom":0}
+faucet-mia: HTTP 200 0 GEN -> 20 GEN 
+faucet-tom: HTTP 200 0 GEN -> 20 GEN 
+open: create_program ok (ACCEPTED) in 14 s   0x839fc726af5c20286a989c9d4fd06368810ed9343e27c58659cb30caa55f350a
+  program 3
+sections: add_sections ok (ACCEPTED) in 10 s   0x5790fbffdcc684d5c6a98a1c83db3322ea70678acd5995cbae593f42195fde0e
+submit-without-claim: submit refused: you do not hold a claim on this section in fa (ACCEPTED) in 17 s   0xdf3c9771da1403926b751f44249938291b4a352446fe85cd59609a69e1cd7a59
+claim-1: claim ok (ACCEPTED) in 13 s   0x70f590946d5e61d0cd8cea86190dafb44d439a971ad8c126545e1e8129c85e1a
+submit-1-wrong: submit ok (ACCEPTED) in 12 s   0x18645093cb913bc97114dc4235d43603f8c8c2fbc6263ec05930f9f498c1446e
+  -> PRECHECK_FAILED: number 10 is missing; number 100 is not in the source
+submit-1: submit ok (ACCEPTED) in 12 s   0xc1024cd919911be498e18779489cfd875de7643648d508f29845defc1da5f71b
+judge-1: judge ok (ACCEPTED) in 22 s   0xa19024239c2b49e4701684cbcc043cd9d5b1f6150f96ddcc8536be826cda0602
+  -> FAITHFUL: The translation accurately conveys the same meaning as the source, preserving the number (10) and the currency/token name (GEN) unchanged, with natural Persian phrasing.
+claim-2: claim ok (ACCEPTED) in 37 s   0xce40007bf80c76f4fd1639f952b77ffa5cbc8095bf46f1107385171108555aeb
+close-while-open: close refused: 1 claim(s) still open; close once they are judged or expire (ACCEPTED) in 13 s   0xa9aefd9175b10ae00923bcc748ddc934472a3b946c2a27d9e491e5a421e33bfd
+submit-2: submit ok (ACCEPTED) in 13 s   0x276e43047dcba9b62b4946f8528d20d1e2f379af2e319aef9ae70f9b3fca6322
+judge-2: judge ok (ACCEPTED) in 25 s   0x825b16c3e3ed36a8f24d452725e703c55500531ff434fc32f09cbb5e1e53cf32
+  -> FAITHFUL: The translation accurately conveys the full meaning of the source, uses the required glossary term 'عبارت بازیابی' for 'recovery phrase', preserves both the warning and the consequence, and reads natu
+withdraw: withdraw ok (ACCEPTED) in 12 s   0x457be6afa392d5f6663ed423078802973e593f5767ae4e4ceab64ef069ce9bcf
+  19.99944875499998 GEN -> 23.999322449499974 GEN; paid 4 GEN, net fee 0.000151305500002823 GEN; difference 25000000000000 wei
+withdraw-again: withdraw refused: nothing to withdraw (ACCEPTED) in 7 s   0x06d525ff5091004cce97f128f4e4af0d36758a9d73ae88923fa0afbf9dc2fbda
+close: close ok (ACCEPTED) in 8 s   0x3a034bda436a65cd766722dce7be750e8b41fe3917615eb4aebaadc9393e7e95
+  14.999684495749989 GEN -> 15.999558190499986 GEN; paid 1 GEN, net fee 0.000151305250002823 GEN; difference 25000000000000 wei
+page-program: HTTP 200 shows it  https://faithful-genlayer.vercel.app/p/3
+page-editor: HTTP 200 shows it  https://faithful-genlayer.vercel.app/s/18/fa
+page-export: HTTP 200 shows it  https://faithful-genlayer.vercel.app/api/export/3/fa
+page-translator: HTTP 200 shows it  https://faithful-genlayer.vercel.app/programs
+
+recorded in docs/reviewer-path.studio-next.json (run rp1); not passing: balance-withdraw, balance-close

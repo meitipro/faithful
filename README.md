@@ -71,6 +71,7 @@ Deliberate decisions, each held by a test:
 | Golden set | **9 of 10** through real consensus; case 5 is a published miss ([`eval/results.md`](eval/results.md)) |
 | Held out | **3 of 3**, run once: H1 FAITHFUL; H2 and H3 FLAWED, which their "either" accepts |
 | Editor checks | the site's port agrees with the contract on all 22 shared cases |
+| Reviewer path | two fresh accounts on the live site through the site's own signing code: faucet, open, add, a refused submit, a pre-check failure, two FAITHFUL verdicts, a refused close, withdraw, close; both payouts arrived in full, and the wallets match the fee accounting except for the 25e12 wei message fee Studio Next lists but does not charge ([`docs/reviewer-path.studio-next.md`](docs/reviewer-path.studio-next.md)) |
 
 The miss: case 5 kept the glossary's *validator* as the German plural *Validatoren*, which the spec expected to pass;
 the validators judged it FLAWED for not keeping the English word. It is reported as it came out, and the

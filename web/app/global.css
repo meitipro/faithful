@@ -151,9 +151,23 @@ body {
     align-items: center;
     gap: 10px;
   }
+  .c-links-mobile {
+    display: none;
+  }
   @media (max-width: 900px) {
     .c-links {
       display: none;
+    }
+    .c-links-mobile {
+      display: flex;
+      gap: 18px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+    .c-links-mobile a {
+      color: var(--ink-2);
     }
   }
 

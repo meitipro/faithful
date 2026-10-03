@@ -43,6 +43,12 @@ export function Nav() {
           </Link>
         </div>
       </div>
+      <nav className="c-links-mobile c-wrap" aria-label="Main, small screens">
+        <Link href="/programs">Programs</Link>
+        <Link href="/me">Translators</Link>
+        <Link href="/new">Start a program</Link>
+        <Link href="/docs">Docs</Link>
+      </nav>
     </header>
   );
 }
