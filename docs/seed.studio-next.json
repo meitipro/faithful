@@ -275,5 +275,18 @@
       "es": 3,
       "de": 1
     }
+  },
+  "faq": {
+    "sections_tx": "0xeded36ddce07743c71704ac226f20d97b7b93ba8a3bc5305ac772ef4eb778180",
+    "first_section": 20,
+    "titles": [
+      "Which languages?",
+      "Can I use machine translation?",
+      "What about style?",
+      "Who pays the fees?",
+      "Why is my claim still shown as claimed after 48 hours?"
+    ],
+    "fund_tx": "0x7226f62de1c96147705d2a30e766969056db949153d15e23f76e4848222c1687",
+    "funded_gen": 200
   }
 }

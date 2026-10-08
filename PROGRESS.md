@@ -19,3 +19,6 @@ One line per step, in order, 2026-10-03. Every figure is read from a file in thi
 - Reviewer path rp1 on the live site from two fresh accounts: every write and refusal as expected, both verdicts FAITHFUL, both payouts in full; each wallet ends 25e12 wei above the fee accounting, the External message fee Studio Next lists but does not charge (`docs/reviewer-path.studio-next.md`).
 - Portal text, X post, demo script and 512 px icon in `submission/`, counted by `submission/count.py`.
 - A navigation row for small screens.
+- 2026-10-08: five FAQ answers of the docs added to program 2, and its pool topped up by 200 GEN (`scripts/seed_faq.py`), so reviewers find open sections in every language.
+- 2026-10-08: the reviewer's path walked through the live site's own UI with a fresh in-page wallet (`docs/ui-walk.studio-next.md`): connect, switch network, faucet, claim, the live number check, FLAWED with the problem named, the revision FAITHFUL, withdraw; reconciled to the wei but for the 25e12 wei message-fee term.
+- Portal entry rewritten field by field for the portal form (`submission/portal.md`), every link opened.

@@ -71,6 +71,7 @@ Deliberate decisions, each held by a test:
 | Golden set | **9 of 10** through real consensus; case 5 is a published miss ([`eval/results.md`](eval/results.md)) |
 | Held out | **3 of 3**, run once: H1 FAITHFUL; H2 and H3 FLAWED, which their "either" accepts |
 | Editor checks | the site's port agrees with the contract on all 22 shared cases |
+| Live UI walk | a fresh in-page wallet through the site's own buttons: connect, switch network, faucet, claim, a number caught by the live check, FLAWED with the problem named, the revision FAITHFUL, withdraw; the whole run reconciles to the wei but for the 25e12 wei message-fee term ([`docs/ui-walk.studio-next.md`](docs/ui-walk.studio-next.md)) |
 | Reviewer path | two fresh accounts on the live site through the site's own signing code: faucet, open, add, a refused submit, a pre-check failure, two FAITHFUL verdicts, a refused close, withdraw, close; both payouts arrived in full, and the wallets match the fee accounting except for the 25e12 wei message fee Studio Next lists but does not charge ([`docs/reviewer-path.studio-next.md`](docs/reviewer-path.studio-next.md)) |
 
 The miss: case 5 kept the glossary's *validator* as the German plural *Validatoren*, which the spec expected to pass;
@@ -80,7 +81,7 @@ inflection is acceptable.
 
 ## Seeded program
 
-Program 2, *Faithful docs, community translations*: four passages of this repository's own docs, translated into
+Program 2, *Faithful docs, community translations*: four passages of this repository's own docs, plus five FAQ answers added later so every language has open sections (`scripts/seed_faq.py`), translated into
 Persian, Spanish and German by the build agent and judged by the validators. The log is
 [`docs/seed.studio-next.log`](docs/seed.studio-next.log). It shows, on chain, a changed number refused by the exact
 checks and then fixed, a softened warning judged FLAWED and then FAITHFUL after its revision, and a Persian revision

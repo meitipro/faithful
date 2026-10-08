@@ -34,3 +34,6 @@ claims-fa-2: FLAWED  The word "close" was mistranslated as "بستنی" (ice cre
 claims-es-2: submitted as 25: PENDING   https://explorer-studio-dev.genlayer.com/tx/0xd2c57e8a19a6d01b09f12ea45a55653a786dcb9477964491ab2f12e4c71541bb
 claims-es-2: FAITHFUL  The translation preserves all meanings, numbers, and conditions, correctly uses the glossary term "reserva" and is natural Spanish.  https://explorer-studio-dev.genlayer.com/tx/0x2e9d72a4e89ec09882ebea76e939faa16e47ef163020288c9e1240b964bede0d
 program 2: pool 156.0 GEN, paid 84.0 GEN, approved {'fa': 3, 'es': 3, 'de': 1}
+added 5 FAQ sections from 20  https://explorer-studio-dev.genlayer.com/tx/0xeded36ddce07743c71704ac226f20d97b7b93ba8a3bc5305ac772ef4eb778180
+topped up program 2 with 200 GEN  https://explorer-studio-dev.genlayer.com/tx/0x7226f62de1c96147705d2a30e766969056db949153d15e23f76e4848222c1687
+program 2: 9 sections, pool 356.0 GEN, enough for 29 more
