@@ -50,7 +50,7 @@ Select Programs in the header, then Faithful docs, community translations. Each 
 
 ### 3. Claim a section
 
-Select any Open cell, for example section 24 in German, to open the editor, then select Claim for 48 hours and confirm. The program's rate, 12 GEN, is reserved from the pool for you.
+Select any Open cell, for example section 22 in German, to open the editor, then select Claim for 48 hours and confirm. The program's rate, 12 GEN, is reserved from the pool for you.
 
 ### 4. Trip an exact check
 
