@@ -1,0 +1,29 @@
+
+H1 "Fund it with 10 GEN." in Persian, with Persian digits (expected FAITHFUL)
+  claim 0xd84c0e6417fb4543d35c30f562390da8b63975e17cb6551d11e93403dda8be9f
+  claimed section 11 in fa  https://explorer-studio-dev.genlayer.com/tx/0xd84c0e6417fb4543d35c30f562390da8b63975e17cb6551d11e93403dda8be9f
+  submit 0xbdeb68ce600ea8535a6be46eca8a282e4b39803c8b16566549c10eb4ed2646f0
+  submitted as 18: PENDING  https://explorer-studio-dev.genlayer.com/tx/0xbdeb68ce600ea8535a6be46eca8a282e4b39803c8b16566549c10eb4ed2646f0
+  judge 0xd857b9f60e077f105e0f595aed6f937926ef8d770ce3a6f1f89a3a59cb31d950
+  MATCH FAITHFUL  The Persian accurately conveys 'Fund it with 10 GEN' as 'Deposit 10 GEN into it,' preserving the amount and meaning naturally.
+  https://explorer-studio-dev.genlayer.com/tx/0xd857b9f60e077f105e0f595aed6f937926ef8d770ce3a6f1f89a3a59cb31d950
+
+H2 A two-sentence paragraph in German, freer wording that merges the two sentences (expected EITHER)
+  claim 0xc45091dab0087b76cc880e9414e066be0db9d087f8378cb8b11e0b26ec471060
+  claimed section 12 in de  https://explorer-studio-dev.genlayer.com/tx/0xc45091dab0087b76cc880e9414e066be0db9d087f8378cb8b11e0b26ec471060
+  submit 0xc175c24a3ef92e4a0cd66914929fad0f5a139d75482a89796726152ef2174037
+  submitted as 20: PENDING  https://explorer-studio-dev.genlayer.com/tx/0xc175c24a3ef92e4a0cd66914929fad0f5a139d75482a89796726152ef2174037
+  judge 0xc338f369901817a5d2984909b1e2dc75646e948f270b4b0522b93aaf9ff1b80c
+  MATCH FAITHFUL  The translation accurately conveys the 48-hour duration, the automatic expiration, and the subsequent reopening for other translators in natural German.
+  https://explorer-studio-dev.genlayer.com/tx/0xc338f369901817a5d2984909b1e2dc75646e948f270b4b0522b93aaf9ff1b80c
+
+H3 A setup step in Turkish, raw machine output, correct but stiff in one sentence (expected EITHER)
+  claim 0x66720bad60fa908ead5a41707e930898f4a68c654fa3104c86dbd3f9d9174e0e
+  claimed section 13 in tr  https://explorer-studio-dev.genlayer.com/tx/0x66720bad60fa908ead5a41707e930898f4a68c654fa3104c86dbd3f9d9174e0e
+  submit 0x17ebed93cafec2eb3ca79c37f4d6edbc4b112ef51e2951fe54daf87d2ef4d86c
+  submitted as 22: PENDING  https://explorer-studio-dev.genlayer.com/tx/0x17ebed93cafec2eb3ca79c37f4d6edbc4b112ef51e2951fe54daf87d2ef4d86c
+  judge 0x07cb7b3b6501a648d5c98515e6ae215e945da6960917518f0c32fa55f7e1f93b
+  MATCH FLAWED  The second sentence is unnecessarily verbose and unnatural ('yeni bir projenin oluşturulması işlemini gerçekleştirin' — 'carry out the process of creating a new project') compared to the straightforwa
+  https://explorer-studio-dev.genlayer.com/tx/0x07cb7b3b6501a648d5c98515e6ae215e945da6960917518f0c32fa55f7e1f93b
+
+wrote eval/results.md: golden 9/10, held out 3/3

@@ -216,8 +216,8 @@ export default async function Landing() {
               ['Code blocks', 'identical, character for character, in order'],
               ['Inline code', 'identical, in any order'],
               ['Links', 'every URL identical'],
-              ['Numbers', 'the same numbers, after digit normalisation'],
-              ['Headings', 'the same number of headings'],
+              ['Numbers', 'the same values: 2,500 and 2.500 agree, 0.4 and 4.0 do not'],
+              ['Structure', 'the same heading levels, list items and table rows'],
               ['Length', 'between 0.4 and 2.5 times the source'],
             ].map(([k, v]) => (
               <div key={k} className="flex items-baseline justify-between gap-4 border-b border-[var(--line)] px-5 py-3 last:border-b-0">

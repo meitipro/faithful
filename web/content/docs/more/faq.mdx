@@ -43,6 +43,18 @@ GenLayer Studio Next, chain 61997. See [Addresses and network](/docs/reference/a
 
 ## Changelog
 
+### October 11, 2026
+
+After the steward review, the contract was redeployed (twice; the second redeploy added the kept-term check after the German case still came back FLAWED). Every change is held by a test and a mutant:
+
+- A submission waits for a verdict at most 24 hours; after that it is released without one (`UNJUDGED`).
+- A first FLAWED verdict leaves at least 12 hours for the revision.
+- Numbers are compared by value; heading levels, list items and table rows are compared.
+- A term the glossary keeps is found by code in the translation, with any grammatical ending, and the judge is told the form found; renderings may be inflected.
+- The evaluation was run again on the new contract, with a new multilingual set in eight more languages.
+
+The earlier contracts and their records are kept in `archive/studio-next-v1/` and `archive/studio-next-v2/`, and still verify against the chain.
+
 ### October 2026
 
 - Contract deployed to Studio Next and frozen; the deployed bytes are checked against the repository by

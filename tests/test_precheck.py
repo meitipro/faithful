@@ -64,7 +64,25 @@ def test_the_cases_cover_every_check():
 
 def test_digits_are_normalised():
     assert PRE.normalise_digits("۰۱۲۳۴۵۶۷۸۹ ٠١٢٣٤٥٦٧٨٩") == "0123456789 0123456789"
-    assert PRE.numbers("۲٬۵۰۰ و ۰٫۴") == ["2", "500", "0", "4"]
+    assert PRE.numbers("۲٬۵۰۰ و ۰٫۴") == ["2500", "0.4"]
+
+
+@pytest.mark.parametrize(
+    "written, value",
+    [
+        ("2,500", "2500"), ("2.500", "2500"), ("2500", "2500"), ("12\u202f500", "12500"), ("1'000", "1000"),
+        ("1,234.5", "1234.5"), ("1.234,5", "1234.5"), ("0,4", "0.4"), ("0.40", "0.4"), ("4.0", "4"), ("007", "7"),
+        ("0.6.0", "0.6.0"), ("1.2.3.4", "1.2.3.4"), ("12,34,567", "12,34,567"),
+    ],
+)
+def test_a_number_is_read_by_value_and_a_version_as_written(written, value):
+    assert PRE.numbers("x " + written + " y") == [value]
+
+
+def test_structure_is_compared_level_by_level():
+    assert PRE.headings("# a\n## b\n    # code\n####### seven") == [1, 2]
+    assert PRE.list_items("- a\n  * b\n3. c\n۴) d\n-no\n10.5 percent") == 4
+    assert PRE.table_rows("| a |\n|---|\n| b |\ntext") == 3
 
 
 def test_the_ratio_bounds_are_inclusive():

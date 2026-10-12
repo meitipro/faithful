@@ -12,15 +12,38 @@ validator, before the judge is ever asked.
 | Code blocks | every fenced block identical, character for character, in order |
 | Inline code | every span identical, in any order, because word order moves between languages |
 | Links | every `http` and `https` link identical, in any order; trailing sentence punctuation is not part of a link |
-| Numbers | the same numbers, counted with repeats, after digit normalisation |
-| Headings | the same number of Markdown headings |
+| Numbers | the same values, counted with repeats, after digit normalisation; separators may follow the target language |
+| Headings | the same headings at the same levels, in order |
+| Lists | the same number of list items, bulleted or numbered, at any depth |
+| Tables | the same number of table rows |
 | Length | the translation is between 0.4 and 2.5 times the length of the source |
 
 ## Digits
 
 Persian digits (۰ to ۹) and Arabic-Indic digits (٠ to ٩) are converted to ASCII before numbers are compared, so a
-translator writes numbers the way their language does. Numbers are read as runs of digits, so `2,500`, the German
-`2.500` and the Persian `۲٬۵۰۰` all read as 2 and 500. Digits inside code and links belong to the code or the link.
+translator writes numbers the way their language does. Digits inside code and links belong to the code or the link.
+
+## Numbers by value
+
+A number is compared by its value, so its formatting can follow the target language while its value cannot change:
+
+| Written | Read as |
+|---|---|
+| `2,500`, `2.500`, `2500`, `12 500` (no-break space), `۲٬۵۰۰` | 2500, 12500 |
+| `1,234.5`, `1.234,5` | 1234.5 |
+| `0.4`, `0,4`, `۰٫۴`, `0.40` | 0.4 |
+| `4.0` | 4, so `0.4` against `4,0` is caught |
+| `0.6.0`, `1.2.3.4` | not a single value: compared exactly as written, so a version cannot be shortened |
+
+A separator followed by exactly three digits, after a group of one to three, is a thousands separator; a single `.`
+or `,` otherwise is the decimal point; the Persian `٫` is always decimal and `٬` always thousands. One honest limit:
+an English `1.500` meaning one and a half reads as 1500, the way most languages would read it.
+
+## Structure
+
+Headings are compared level by level: a `###` that becomes `##` changes where a section sits in the docs, so it is
+named, for example `heading 2 is ### in the source and ## in the translation`. List items and table rows are counted,
+so a dropped step or a dropped row is caught before any model reads the text.
 
 ## What a failure does
 

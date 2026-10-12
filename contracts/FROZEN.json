@@ -2,15 +2,43 @@
   "deployments": {
     "studio-next": {
       "chain_id": 61997,
+      "deployed_at": "2026-10-11T19:52:29Z",
+      "explorer": "https://explorer-studio-dev.genlayer.com",
+      "faithful": "0xF8c1E884228b0e31bE304abaB6e3c6E5C6C744E1",
+      "faithful_deployer": "0x9CBCc166D73eC874A163D0d6Ba7483278579fd22",
+      "faithful_file": "contracts/faithful.py",
+      "faithful_sha256": "d1bf3bc2ce87d98032fb6c45bd09e1eae7f7464330289cdadc822a11beb34677",
+      "faithful_tx": "0x478f9c0029c66e2e6cb382004684e9d84bb81aad6266641e6b3e3e05ca8d9c25",
+      "rpc": "https://studio-next.genlayer.com/api",
+      "runtime": "py-genlayer:5jycge4q8k23462jtb0b9fyey1s9qz928sz2nbrd9mg4sxqg2qng"
+    },
+    "studio-next-v1": {
+      "chain_id": 61997,
       "deployed_at": "2026-10-03T12:45:54Z",
       "explorer": "https://explorer-studio-dev.genlayer.com",
       "faithful": "0x3762367564e2849380A761539E833D0A930D6e8f",
       "faithful_deployer": "0x9CBCc166D73eC874A163D0d6Ba7483278579fd22",
-      "faithful_file": "contracts/faithful.py",
+      "faithful_file": "archive/studio-next-v1/faithful.py",
       "faithful_sha256": "6a4736b340d213b8b9c31bde057e9e2e97f793cefe8d33af01e336af3c763730",
       "faithful_tx": "0xada2ee1dc55614ac9c6d070f4cd7c5b8f98549d5cefb9ef0f35a7d3ae8f1fa7f",
       "rpc": "https://studio-next.genlayer.com/api",
-      "runtime": "py-genlayer:5jycge4q8k23462jtb0b9fyey1s9qz928sz2nbrd9mg4sxqg2qng"
+      "runtime": "py-genlayer:5jycge4q8k23462jtb0b9fyey1s9qz928sz2nbrd9mg4sxqg2qng",
+      "superseded_at": "2026-10-11",
+      "superseded_because": "steward review: bounded judging window, heading levels, list items and table rows, numbers by value, glossary inflection"
+    },
+    "studio-next-v2": {
+      "chain_id": 61997,
+      "deployed_at": "2026-10-11T19:27:31Z",
+      "explorer": "https://explorer-studio-dev.genlayer.com",
+      "faithful": "0x9Be39946C8D795C133EF2aAD58FC540c168ceA85",
+      "faithful_deployer": "0x9CBCc166D73eC874A163D0d6Ba7483278579fd22",
+      "faithful_file": "archive/studio-next-v2/faithful.py",
+      "faithful_sha256": "963b334021ca2f0fe791e06b5f2113796249128b4d7a6416993ecfbb2c6af001",
+      "faithful_tx": "0x810d561a6c80e3afdd7cc1d350f1551159b3956be45d3c048333cc547351a00d",
+      "rpc": "https://studio-next.genlayer.com/api",
+      "runtime": "py-genlayer:5jycge4q8k23462jtb0b9fyey1s9qz928sz2nbrd9mg4sxqg2qng",
+      "superseded_at": "2026-10-11",
+      "superseded_because": "golden case 5 still judged FLAWED: kept glossary terms are now found by code and the judge is told the found form"
     }
   }
 }

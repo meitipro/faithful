@@ -20,7 +20,8 @@ page is `/s/<section>/<lang>`. A section has one state per target language:
 | CLAIMED | Claimed | A translator holds it; their claim expires 48 hours after it began |
 | CLAIMED, last submission refused by the exact checks | Pre-check | The holder is fixing a difference |
 | CLAIMED, after one FLAWED verdict | Flawed | The holder is on their one revision |
-| JUDGING | Judging | A submission passed the exact checks and waits for `judge` |
+| JUDGING | Judging | A submission passed the exact checks and waits for `judge`, for at most 24 hours |
+| JUDGING, 24 hours later | Stalled | No verdict came; the next `judge`, claim or close releases it without one |
 | APPROVED | OK | Judged FAITHFUL, paid, and in the export |
 
 States are always words, never colour alone. Blue marks approved sections only.
@@ -31,8 +32,8 @@ States are always words, never colour alone. Blue marks approved sections only.
 - A translator holds at most three live claims at once.
 - A claim that is not submitted in time reopens the section. The contract has no clock of its own, so an expired
   claim is released by the next claim or close that touches it; the site already shows it as open.
-- A submission waiting for the judge never expires. Anyone can call `judge` on it, so a translator who stops after
-  submitting cannot block the maintainer from closing.
+- A submission waiting for the judge holds the claim for at most 24 hours. Anyone can call `judge` on it; if no verdict
+  comes by then, the next judge, claim or close releases it without one, so nobody can block the maintainer from closing.
 
 ## Who may do what
 

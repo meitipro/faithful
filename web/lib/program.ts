@@ -2,12 +2,13 @@ import { gen } from './format';
 import type { Glossary, Program, Slot, Submission, Verdict } from './types';
 
 /** What a cell on the board says. Never a colour alone: every state is a word. */
-export type Shown = 'OPEN' | 'CLAIMED' | 'JUDGING' | 'OK' | 'FLAWED' | 'PRE';
+export type Shown = 'OPEN' | 'CLAIMED' | 'JUDGING' | 'STALLED' | 'OK' | 'FLAWED' | 'PRE';
 
 export const SHOWN_LABEL: Record<Shown, string> = {
   OPEN: 'Open',
   CLAIMED: 'Claimed',
   JUDGING: 'Judging',
+  STALLED: 'Stalled',
   OK: 'OK',
   FLAWED: 'Flawed',
   PRE: 'Pre-check',
@@ -20,7 +21,7 @@ export const SHOWN_LABEL: Record<Shown, string> = {
  */
 export function shownState(slot: Slot, now = Math.floor(Date.now() / 1000)): Shown {
   if (slot.state === 'APPROVED') return 'OK';
-  if (slot.state === 'JUDGING') return 'JUDGING';
+  if (slot.state === 'JUDGING') return slot.judge_deadline && slot.judge_deadline <= now ? 'STALLED' : 'JUDGING';
   if (slot.state === 'OPEN') return 'OPEN';
   if (slot.expires_at <= now) return 'OPEN';
   if (slot.last_verdict === 'FLAWED' && slot.attempt >= 2) return 'FLAWED';
@@ -34,6 +35,7 @@ export function expired(slot: Slot, now = Math.floor(Date.now() / 1000)): boolea
 
 export const VERDICT_LABEL: Record<Verdict, string> = {
   PENDING: 'Judging',
+  UNJUDGED: 'No verdict',
   PRECHECK_FAILED: 'Pre-check failed',
   FAITHFUL: 'Faithful',
   FLAWED: 'Flawed',

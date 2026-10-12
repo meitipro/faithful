@@ -13,6 +13,9 @@ import { WalletGate } from './Wallet';
 
 type Links = Record<string, { submit?: string; judge?: string }>;
 
+/** How long a submission waits for a verdict: JUDGE_HOURS in the contract. */
+const JUDGE_SECONDS = 24 * 3600;
+
 function draftKey(id: number, lang: string): string {
   return `faithful:draft:${id}:${lang}`;
 }
@@ -189,7 +192,11 @@ export function Editor({ section, program, lang, links }: { section: Section; pr
               <p className="c-text" dir={dirOf(lang)} lang={lang}>
                 {pending.text}
               </p>
-              <p className="c-note">This translation passed the exact checks and is waiting for the validators.</p>
+              <p className="c-note">
+                {pending.submitted_at + JUDGE_SECONDS <= now
+                  ? 'No verdict came within 24 hours. Anyone can release the claim now: no model runs, the reserve returns to the pool, and the translator may claim the section again.'
+                  : `This translation passed the exact checks and is waiting for the validators, until ${dayTime(pending.submitted_at + JUDGE_SECONDS)} at the latest.`}
+              </p>
             </div>
           ) : current && !holding && !expired(slot, now) ? (
             <div className="flex flex-col gap-3">
@@ -261,9 +268,13 @@ export function Editor({ section, program, lang, links }: { section: Section; pr
             ) : pending ? (
               <WalletGate action="ask the validators">
                 <button className="c-btn solid wide" disabled={busy} onClick={() => run('judge', [pending.id])}>
-                  Ask the validators
+                  {pending.submitted_at + JUDGE_SECONDS <= now ? 'Release the claim' : 'Ask the validators'}
                 </button>
-                <p className="c-faint text-[12.5px]">Anyone can ask. The verdict is the validators&apos;, whoever sends it.</p>
+                <p className="c-faint text-[12.5px]">
+                  {pending.submitted_at + JUDGE_SECONDS <= now
+                    ? 'Past the 24-hour window the same button releases instead of judging.'
+                    : 'Anyone can ask. The verdict is the validators\', whoever sends it.'}
+                </p>
               </WalletGate>
             ) : holding ? (
               <WalletGate action="submit">
@@ -298,7 +309,7 @@ export function Editor({ section, program, lang, links }: { section: Section; pr
             )}
             <TxProgress
               state={state}
-              waiting={step === 'judge' || state.method === 'judge' ? 'Validators are comparing the texts' : state.method === 'submit' ? 'Running the exact checks on chain' : 'Validators are recording it'}
+              waiting={pending && pending.submitted_at + JUDGE_SECONDS <= now && state.method === 'judge' ? 'Releasing the claim' : step === 'judge' || state.method === 'judge' ? 'Validators are comparing the texts' : state.method === 'submit' ? 'Running the exact checks on chain' : 'Validators are recording it'}
             />
             {current && current.verdict === 'PRECHECK_FAILED' && holding && (
               <div className="c-note">

@@ -1,0 +1,45 @@
+{
+  "about": "The multilingual set, added after the steward review asked for wider language coverage and inflection handling. Fourteen cases in eight more target languages (French, Arabic, Japanese, Chinese, Russian, Turkish, Italian, Portuguese), each a real sentence about Faithful itself, each varying one thing. M7 and M9 test inflection of glossary terms (a kept term with a Turkish suffix, a Portuguese plural of a rendering), the point the review raised; M8 is the complement (the kept term kept). M3 and M10 test that number formatting follows the target language, M11 that a value change is still caught, M12 that a heading level change is caught. Written and locked before the first run; every verdict is published as it comes out.",
+  "program": {
+    "name": "Faithful multilingual set",
+    "src_lang": "en",
+    "langs": ["fr", "ar", "ja", "zh", "ru", "tr", "it", "pt"],
+    "glossary": {
+      "recovery phrase": {"fr": "phrase de récupération", "pt": "frase de recuperação", "it": "frase di recupero", "ru": "фраза восстановления"},
+      "validator": "keep",
+      "Intelligent Contract": "keep"
+    },
+    "rate_gen": 12,
+    "funding_gen": 200
+  },
+  "cases": [
+    {"id": "M1", "title": "French, faithful two-sentence warning", "source": "Never share your recovery phrase. Anyone who has it can move your funds.", "lang": "fr",
+     "translation": "Ne partagez jamais votre phrase de récupération. Toute personne qui la possède peut déplacer vos fonds.", "expected": "FAITHFUL", "why": "Meaning, force and glossary rendering kept"},
+    {"id": "M2", "title": "French, the same warning softened and its second sentence dropped", "source": "Never share your recovery phrase. Anyone who has it can move your funds.", "lang": "fr",
+     "translation": "Il vaut mieux ne pas partager votre phrase de récupération.", "expected": "FLAWED", "why": "Softened warning and omission"},
+    {"id": "M3", "title": "Arabic, faithful, with Arabic-Indic digits", "source": "The fee is 10 GEN per section.", "lang": "ar",
+     "translation": "الرسوم ١٠ GEN لكل قسم.", "expected": "FAITHFUL", "why": "Digits written the target language's way"},
+    {"id": "M4", "title": "Japanese, faithful", "source": "Claims expire after 48 hours.", "lang": "ja",
+     "translation": "クレームは48時間後に期限切れになります。", "expected": "FAITHFUL", "why": "A non-Latin script, number kept"},
+    {"id": "M5", "title": "Target is Chinese, text is Japanese", "source": "Never share your recovery phrase. Anyone who has it can move your funds.", "lang": "zh",
+     "translation": "回復フレーズは絶対に共有しないでください。それを持っている人は誰でもあなたの資金を移動できます。", "expected": "WRONG_LANGUAGE", "why": "A neighbouring script, not the target language"},
+    {"id": "M6", "title": "Russian, a quantity changed in words", "source": "Withdraw sends your whole balance to your wallet.", "lang": "ru",
+     "translation": "Вывод отправляет половину вашего баланса на ваш кошелёк.", "expected": "FLAWED", "why": "\"whole\" became \"half\", which no number check can see"},
+    {"id": "M7", "title": "Turkish, the kept term with a Turkish plural suffix", "source": "Validators re-run the transaction.", "lang": "tr",
+     "translation": "Validator'lar işlemi yeniden çalıştırır.", "expected": "FAITHFUL", "why": "Inflection of a kept term, the review's point"},
+    {"id": "M8", "title": "Italian, the kept term kept", "source": "Deploy an Intelligent Contract.", "lang": "it",
+     "translation": "Distribuisci un Intelligent Contract.", "expected": "FAITHFUL", "why": "The complement of golden case 6"},
+    {"id": "M9", "title": "Portuguese, the plural of a glossary rendering", "source": "Never share recovery phrases.", "lang": "pt",
+     "translation": "Nunca compartilhe frases de recuperação.", "expected": "FAITHFUL", "why": "Inflection of a rendering"},
+    {"id": "M10", "title": "French, decimals written with commas", "source": "Keep the ratio between 0.4 and 2.5.", "lang": "fr",
+     "translation": "Gardez le rapport entre 0,4 et 2,5.", "expected": "FAITHFUL", "why": "Formatting follows the target language; the values match"},
+    {"id": "M11", "title": "French, a decimal value changed", "source": "Keep the ratio between 0.4 and 2.5.", "lang": "fr",
+     "translation": "Gardez le rapport entre 4,0 et 2,5.", "expected": "PRECHECK_FAILED", "why": "0.4 became 4: caught by value, no judge"},
+    {"id": "M12", "title": "Portuguese, a heading level changed", "source": "## Fees\n\n### On Studio Next\n\nEach write pays a fee.", "lang": "pt",
+     "translation": "## Taxas\n\n## No Studio Next\n\nCada escrita paga uma taxa.", "expected": "PRECHECK_FAILED", "why": "### became ##: caught by structure, no judge"},
+    {"id": "M13", "title": "Arabic, an instruction reversed", "source": "Do not close the program while claims are open.", "lang": "ar",
+     "translation": "أغلق البرنامج أثناء وجود حجوزات مفتوحة.", "expected": "FLAWED", "why": "\"Do not close\" became \"Close\""},
+    {"id": "M14", "title": "Chinese, faithful", "source": "Approved sections are exported as Markdown or JSON.", "lang": "zh",
+     "translation": "已批准的章节将导出为 Markdown 或 JSON。", "expected": "FAITHFUL", "why": "Product names kept in a CJK sentence"}
+  ]
+}

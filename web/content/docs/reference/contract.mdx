@@ -42,7 +42,7 @@ Refusals raised in the method itself (the shared checks on text, languages and t
 - `[EXPECTED] target languages are a list of codes`
 - `[EXPECTED] the rate is a whole number of wei above zero`
 
-[Source, line 883](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L883)
+[Source, line 1070](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L1070)
 
 ## fund
 
@@ -57,7 +57,7 @@ Refusals raised in the method itself (the shared checks on text, languages and t
 - `[EXPECTED] send some GEN to fund the program`
 - `[EXPECTED] this program is closed`
 
-[Source, line 932](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L932)
+[Source, line 1119](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L1119)
 
 ## add_sections
 
@@ -72,7 +72,7 @@ Refusals raised in the method itself (the shared checks on text, languages and t
 - `[EXPECTED] a program holds at most … sections`
 - `[EXPECTED] this program is closed`
 
-[Source, line 944](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L944)
+[Source, line 1131](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L1131)
 
 ## claim
 
@@ -91,7 +91,7 @@ Refusals raised in the method itself (the shared checks on text, languages and t
 - `[EXPECTED] this section is already claimed in …`
 - `[EXPECTED] you already hold three claims; submit or let one expire first`
 
-[Source, line 969](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L969)
+[Source, line 1156](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L1156)
 
 ## submit
 
@@ -108,7 +108,7 @@ Refusals raised in the method itself (the shared checks on text, languages and t
 - `[EXPECTED] your claim has expired`
 - `[EXPECTED] your submission is waiting for the judge`
 
-[Source, line 1008](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L1008)
+[Source, line 1195](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L1195)
 
 ## judge
 
@@ -121,10 +121,10 @@ judge(submission_id: int) -> str
 Refusals raised in the method itself (the shared checks on text, languages and the glossary add their own, listed on the Errors page):
 
 - `[EXPECTED] this submission failed the exact checks and is never judged`
-- `[EXPECTED] this submission is already judged`
+- `[EXPECTED] this submission is no longer waiting for a verdict`
 - `[EXPECTED] unknown submission`
 
-[Source, line 1059](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L1059)
+[Source, line 1246](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L1246)
 
 ## withdraw
 
@@ -138,7 +138,7 @@ Refusals raised in the method itself (the shared checks on text, languages and t
 
 - `[EXPECTED] nothing to withdraw`
 
-[Source, line 1111](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L1111)
+[Source, line 1305](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L1305)
 
 ## close
 
@@ -153,7 +153,7 @@ Refusals raised in the method itself (the shared checks on text, languages and t
 - `[EXPECTED] this program is already closed`
 - `[EXPECTED] … claim(s) still open; close once they are judged or expire`
 
-[Source, line 1123](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L1123)
+[Source, line 1317](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L1317)
 
 ## get_program
 
@@ -163,7 +163,7 @@ get_program(program_id: int) -> str
 
 **View.** Languages, glossary, rate, pool and progress. &#123;"found": false&#125; when there is none; "programs" is always the count.
 
-[Source, line 1225](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L1225)
+[Source, line 1424](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L1424)
 
 ## get_section
 
@@ -173,7 +173,7 @@ get_section(section_id: int) -> str
 
 **View.** The source and the state in each language, with the latest submissions. &#123;"found": false&#125; when there is none.
 
-[Source, line 1244](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L1244)
+[Source, line 1443](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L1443)
 
 ## list_sections
 
@@ -183,7 +183,7 @@ list_sections(program_id: int, lang: str, status: str, offset: int, limit: int) 
 
 **View.** The board, in section order. An empty lang shows every language; an empty status matches any. A status filter matches a section when the chosen language (or any language, when none is chosen) is in that state.
 
-[Source, line 1275](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L1275)
+[Source, line 1474](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L1474)
 
 ## export
 
@@ -193,7 +193,7 @@ export(program_id: int, lang: str) -> str
 
 **View.** Approved translations in section order, for docs pipelines. &#123;"found": false&#125; for an unknown program or language.
 
-[Source, line 1317](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L1317)
+[Source, line 1516](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L1516)
 
 ## list_submissions
 
@@ -203,4 +203,4 @@ list_submissions(translator: str, offset: int, limit: int) -> str
 
 **View.** Submissions newest first. An empty translator lists everyone's, for the recent verdicts; a translator's own list adds their balance and their live claims, for the translator page.
 
-[Source, line 1361](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L1361)
+[Source, line 1560](https://github.com/meitipro/faithful/blob/main/contracts/faithful.py#L1560)

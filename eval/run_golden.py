@@ -6,6 +6,7 @@ through real consensus, and publish what came out.
     python eval/run_golden.py              # the ten golden cases
     python eval/run_golden.py H1 H2 H3     # the held-out cases, once
     python eval/run_golden.py --report     # rewrite results.md from results.json
+    python eval/run_golden.py --set multilingual   # the multilingual set, every case
 
 eval/golden.json was written, hashed and timestamped (eval/golden.lock.json)
 before the first run, and this script refuses to run if it has changed since.
@@ -41,12 +42,16 @@ import chain as C  # noqa: E402
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 HERE = pathlib.Path(__file__).resolve().parent
-GOLDEN = HERE / "golden.json"
-LOCK = HERE / "golden.lock.json"
-RESULTS = HERE / "results.json"
-REPORT = HERE / "results.md"
-MAINTAINER = "golden_maintainer"
-TRANSLATORS = [f"golden_translator_{i}" for i in range(1, 6)]
+#: --set multilingual runs eval/golden-multilingual.json into results-multilingual.*,
+#: from its own accounts; the default is the golden set of the build spec.
+SET = sys.argv[sys.argv.index("--set") + 1] if "--set" in sys.argv else ""
+SUFFIX = "-" + SET if SET else ""
+GOLDEN = HERE / f"golden{SUFFIX}.json"
+LOCK = HERE / f"golden{SUFFIX}.lock.json"
+RESULTS = HERE / f"results{SUFFIX}.json"
+REPORT = HERE / f"results{SUFFIX}.md"
+MAINTAINER = f"golden{SUFFIX.replace('-', '_')}_maintainer"
+TRANSLATORS = [f"golden{SUFFIX.replace('-', '_')}_translator_{i}" for i in range(1, 6)]
 FINAL = ("FAITHFUL", "FLAWED", "WRONG_LANGUAGE", "PRECHECK_FAILED")
 
 
@@ -291,4 +296,4 @@ if __name__ == "__main__":
     if "--report" in sys.argv:
         report()
     else:
-        run([a for a in sys.argv[1:] if not a.startswith("--")])
+        run([a for a in sys.argv[1:] if not a.startswith("--") and a != SET])

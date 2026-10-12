@@ -156,5 +156,92 @@
       "number 100 is not in the source",
       "the source has 1 heading, the translation has 0"
     ]
+  },
+  {
+    "name": "a heading level changed",
+    "source": "## Fees\n\n### On Studio Next\n\nThe fee is 10 GEN.",
+    "translation": "## Gebühren\n\n## Auf Studio Next\n\nDie Gebühr beträgt 10 GEN.",
+    "problems": [
+      "heading 2 is ### in the source and ## in the translation"
+    ]
+  },
+  {
+    "name": "heading levels kept",
+    "source": "## Fees\n\n### On Studio Next\n\nThe fee is 10 GEN.",
+    "translation": "## Gebühren\n\n### Auf Studio Next\n\nDie Gebühr beträgt 10 GEN.",
+    "problems": []
+  },
+  {
+    "name": "a list item dropped",
+    "source": "Before you submit:\n\n- claim the section\n- keep the code\n- keep the numbers",
+    "translation": "Antes de enviar:\n\n- reclama la sección\n- conserva el código y los números",
+    "problems": [
+      "the source has 3 list items, the translation has 2"
+    ]
+  },
+  {
+    "name": "a numbered list in Persian digits",
+    "source": "Steps:\n\n1. Claim.\n2. Translate.\n3. Submit.",
+    "translation": "گام‌ها:\n\n۱. رزرو کنید.\n۲. ترجمه کنید.\n۳. ارسال کنید.",
+    "problems": []
+  },
+  {
+    "name": "a table row dropped",
+    "source": "| Check | Rule |\n|---|---|\n| Links | identical |\n| Numbers | same value |",
+    "translation": "| Prüfung | Regel |\n|---|---|\n| Links | identisch |",
+    "problems": [
+      "the source has 4 table rows, the translation has 3"
+    ]
+  },
+  {
+    "name": "a decimal value changed, not its format",
+    "source": "Keep the ratio above 0.4.",
+    "translation": "Halte das Verhältnis über 4,0.",
+    "problems": [
+      "number 0.4 is missing",
+      "number 4 is not in the source"
+    ]
+  },
+  {
+    "name": "a decimal written the target language's way",
+    "source": "Keep the ratio above 0.4.",
+    "translation": "Halte das Verhältnis über 0,4.",
+    "problems": []
+  },
+  {
+    "name": "thousands without a separator",
+    "source": "A section holds at most 2,500 characters.",
+    "translation": "Ein Abschnitt enthält höchstens 2500 Zeichen.",
+    "problems": []
+  },
+  {
+    "name": "French thousands with a narrow no-break space",
+    "source": "The pool holds 12,500 GEN.",
+    "translation": "Le fonds contient 12 500 GEN.",
+    "problems": []
+  },
+  {
+    "name": "a version is compared as written",
+    "source": "Use GenVM 0.6.0 or later.",
+    "translation": "Utiliza GenVM 0.6 o posterior.",
+    "problems": [
+      "number 0.6.0 is missing",
+      "number 0.6 is not in the source"
+    ]
+  },
+  {
+    "name": "Persian decimal sign",
+    "source": "The ratio is 2.5 at most.",
+    "translation": "این نسبت حداکثر ۲٫۵ است.",
+    "problems": []
+  },
+  {
+    "name": "a value off by a factor of a thousand",
+    "source": "The fee is 1,000 GEN.",
+    "translation": "Die Gebühr beträgt 1 GEN.",
+    "problems": [
+      "number 1000 is missing",
+      "number 1 is not in the source"
+    ]
   }
 ]

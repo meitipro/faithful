@@ -7,11 +7,21 @@ A maintainer opens a program for their docs: a source language, the target
 languages, a glossary and a fixed rate per section per language, funded up
 front. They add the docs as short sections. A translator claims one section in
 one language for 48 hours and submits a translation. Exact code compares code,
-inline code, links, numbers and headings with the source before any model runs.
-A translation that passes is judged by validators who compare meaning across
-the two languages. FAITHFUL credits the rate to the translator; FLAWED names
-the first problem and allows one revision within the claim; WRONG_LANGUAGE
+inline code, links, numbers by value, and heading levels, list items and table
+rows with the source before any model runs. A translation that passes is judged
+by validators who compare meaning across the two languages. FAITHFUL credits
+the rate to the translator; FLAWED names the first problem and allows one
+revision, with at least 12 hours left on the claim to write it; WRONG_LANGUAGE
 releases the claim.
+
+A glossary term to keep is looked for by code in the translation, and the
+judge is told what was found, including a grammatical ending, so an inflected
+kept term is not mistaken for a translated one.
+
+No state waits forever. A submission waits for a verdict at most 24 hours: if
+consensus has not produced one by then, the next judge(), claim() or close()
+that touches it marks it UNJUDGED and releases the claim with its reserve,
+without barring the translator, who may claim the section again.
 
 Where money moves. create_program() and fund() take money in. withdraw() pays a
 translator their balance and close() returns what is left to the maintainer;
@@ -49,6 +59,9 @@ PENDING = "PENDING"
 #: A submission the exact checks refused. No judge runs, nothing is paid, and
 #: the claim stays with the translator, who fixes the difference and submits again.
 PRECHECK_FAILED = "PRECHECK_FAILED"
+#: A submission that waited JUDGE_HOURS without a verdict. Nothing is paid, the
+#: claim is released, and the translator is not barred: the failure was not theirs.
+UNJUDGED = "UNJUDGED"
 
 # --- one section in one language ------------------------------------------
 OPEN = "OPEN"
@@ -74,6 +87,10 @@ MAX_CLAIMS = 3
 #: The first submission and one revision after a FLAWED verdict.
 MAX_ATTEMPTS = 2
 CLAIM_HOURS = 48
+#: How long a submission may wait for a verdict before it is released.
+JUDGE_HOURS = 24
+#: After a first FLAWED verdict the claim runs at least this long, so the revision has time.
+REVISION_HOURS = 12
 HOUR = 3600
 MAX_PAGE = 50
 MAX_SHOWN = 20
@@ -296,11 +313,40 @@ def parse_glossary(glossary_json, langs: list) -> str:
 
 
 # --- the prompt -----------------------------------------------------------
-def glossary_for(glossary: str, lang: str, source: str) -> str:
+#: Characters that may follow a kept term inside the same word: the ending a
+#: target grammar adds (German Validator-en, Turkish Validator'lar).
+ENDING_MARKS = "'\u2019-"
+
+
+def kept_form(term: str, translation: str) -> str:
+    """
+    How the translation writes a term the glossary says to keep: the first
+    place the term starts a word (compared ignoring case), with any ending the
+    target grammar adds to it, or "" when the term is not there at all. Pure
+    code, the same on every validator, so the judge is told a checked fact
+    instead of being asked to recognise an inflection.
+    """
+    size = len(term)
+    low = term.lower()
+    for i in range(len(translation) - size + 1):
+        if translation[i : i + size].lower() != low:
+            continue
+        if i > 0 and translation[i - 1].isalnum():
+            continue
+        j = i + size
+        while j < len(translation) and (translation[j].isalpha() or ENDING_MARKS.find(translation[j]) >= 0):
+            j += 1
+        return translation[i:j]
+    return ""
+
+
+def glossary_for(glossary: str, lang: str, source: str, translation: str) -> str:
     """
     The glossary lines for one language, only for terms that appear in the
-    section's source (compared ignoring case), in glossary order. Every term
-    and rendering is fenced.
+    section's source (compared ignoring case), in glossary order. A term to
+    keep carries what code found in the translation: kept as written, kept
+    with a grammatical ending, or not found. Every term, rendering and found
+    form is fenced.
     """
     entries = json.loads(glossary)
     low = source.lower()
@@ -313,9 +359,16 @@ def glossary_for(glossary: str, lang: str, source: str) -> str:
         if rendering == "":
             continue
         if rendering == KEEP:
-            lines.append(fence(term) + " -> " + fence(term) + " (keep as written)")
+            form = kept_form(term, translation)
+            if form == "":
+                found = "not found in the translation"
+            elif form.lower() == term.lower():
+                found = "found in the translation as written"
+            else:
+                found = "found in the translation with an ending the target grammar adds: " + fence(form)
+            lines.append(fence(term) + " -> " + fence(term) + " (keep untranslated; endings the target grammar adds to it are fine; checked by code: " + found + ")")
         else:
-            lines.append(fence(term) + " -> " + fence(rendering))
+            lines.append(fence(term) + " -> " + fence(rendering) + " (inflected forms of this rendering are fine)")
     if len(lines) == 0:
         return NO_TERMS
     return "\n".join(lines)
@@ -326,7 +379,7 @@ def build_prompt(src_lang: str, source: str, lang: str, glossary: str, translati
         src_lang=LANGS[src_lang],
         source=fence(source),
         lang=LANGS[lang],
-        glossary=glossary_for(glossary, lang, source),
+        glossary=glossary_for(glossary, lang, source, translation),
         translation=fence(translation),
     )
 
@@ -544,21 +597,93 @@ def split_urls(prose: str) -> list:
     return [urls, "".join(rest)]
 
 
+#: Characters that may sit between the digit groups of one written number.
+#: "." and "," are decimal or thousands by position; the Persian decimal sign
+#: (U+066B) is always decimal; the Persian thousands sign (U+066C), the
+#: apostrophes and the no-break spaces are always thousands.
+NUM_SEPS = ".,٫٬'’  "
+
+
+def _canonical(whole: str, frac: str) -> str:
+    whole = whole.lstrip("0")
+    if whole == "":
+        whole = "0"
+    frac = frac.rstrip("0")
+    return whole + ("." + frac if frac != "" else "")
+
+
+def number_value(groups: list, seps: list) -> str:
+    """
+    One written number as its value, so formatting never counts and value
+    always does: 2,500 and 2.500 and 2500 (and the Persian forms) all read
+    2500; 0,4 reads 0.4 and 4.0 reads 4. A separator followed by exactly three
+    digits after a group of one to three is a thousands separator; a single "."
+    or "," otherwise is the decimal point. A written form that is not a number
+    (a version such as 0.6.0) is kept as written and compared exactly.
+    """
+    literal = groups[0]
+    for i in range(len(seps)):
+        sep = seps[i]
+        if sep == "٫":
+            sep = "."
+        elif sep == "٬":
+            sep = ","
+        literal += sep + groups[i + 1]
+    if len(seps) == 0:
+        return _canonical(groups[0], "")
+    last = seps[len(seps) - 1]
+    decimal_at = -1
+    if last == "٫":
+        if seps.count("٫") != 1:
+            return literal
+        decimal_at = len(seps) - 1
+    elif (last == "." or last == ",") and seps.count(last) == 1:
+        if len(seps) > 1:
+            decimal_at = len(seps) - 1
+        elif not (len(groups[1]) == 3 and 1 <= len(groups[0]) <= 3):
+            decimal_at = 0
+    int_end = decimal_at if decimal_at >= 0 else len(seps)
+    if int_end > 0:
+        if len(groups[0]) < 1 or len(groups[0]) > 3:
+            return literal
+        for i in range(int_end):
+            if seps[i] != seps[0] or seps[i] == "٫" or len(groups[i + 1]) != 3:
+                return literal
+    whole = "".join(groups[: int_end + 1])
+    frac = groups[decimal_at + 1] if decimal_at >= 0 else ""
+    return _canonical(whole, frac)
+
+
 def numbers(prose: str) -> list:
-    """Every run of digits, after digit normalisation. 2,500 and 2.500 and ۲٬۵۰۰ all read as 2 and 500."""
+    """Every number in the prose, by value (see number_value), after digit normalisation."""
+    text = normalise_digits(prose)
     found = []
-    current = []
-    for char in normalise_digits(prose) + " ":
-        if ASCII_DIGITS.find(char) >= 0:
-            current.append(char)
-        elif len(current) > 0:
-            found.append("".join(current))
-            current = []
+    i = 0
+    n = len(text)
+    while i < n:
+        if ASCII_DIGITS.find(text[i]) < 0:
+            i += 1
+            continue
+        groups = []
+        seps = []
+        start = i
+        while i < n and ASCII_DIGITS.find(text[i]) >= 0:
+            i += 1
+        groups.append(text[start:i])
+        while i + 1 < n and NUM_SEPS.find(text[i]) >= 0 and ASCII_DIGITS.find(text[i + 1]) >= 0:
+            seps.append(text[i])
+            i += 1
+            start = i
+            while i < n and ASCII_DIGITS.find(text[i]) >= 0:
+                i += 1
+            groups.append(text[start:i])
+        found.append(number_value(groups, seps))
     return found
 
 
-def headings(prose: str) -> int:
-    count = 0
+def headings(prose: str) -> list:
+    """The level of every Markdown heading, in order: [2, 3] for a ## and then a ###."""
+    levels = []
     for line in prose.split("\n"):
         stripped = line.lstrip(" ")
         if len(line) - len(stripped) > 3:
@@ -567,6 +692,31 @@ def headings(prose: str) -> int:
         while level < len(stripped) and stripped[level] == "#":
             level += 1
         if 1 <= level <= 6 and (len(stripped) == level or stripped[level] == " "):
+            levels.append(level)
+    return levels
+
+
+def list_items(prose: str) -> int:
+    """Lines that open a list item: "- ", "* ", "+ ", or a number followed by ". " or ") ", at any depth."""
+    count = 0
+    for line in normalise_digits(prose).split("\n"):
+        stripped = line.lstrip(" \t")
+        if stripped[:2] in ("- ", "* ", "+ "):
+            count += 1
+            continue
+        digits = 0
+        while digits < len(stripped) and ASCII_DIGITS.find(stripped[digits]) >= 0:
+            digits += 1
+        if 1 <= digits <= 9 and stripped[digits : digits + 2] in (". ", ") "):
+            count += 1
+    return count
+
+
+def table_rows(prose: str) -> int:
+    """Lines of a Markdown table, the separator row included."""
+    count = 0
+    for line in prose.split("\n"):
+        if line.lstrip(" ").startswith("|"):
             count += 1
     return count
 
@@ -616,7 +766,8 @@ def _ratio_text(pct: int) -> str:
 def precheck(source: str, translation: str) -> list:
     """
     Every exact difference between a source section and a translation, in a
-    fixed order: code blocks, inline code, links, numbers, headings, length.
+    fixed order: code blocks, inline code, links, numbers, headings, list
+    items, table rows, length.
     An empty list means the translation may be judged.
     """
     problems = []
@@ -640,10 +791,32 @@ def precheck(source: str, translation: str) -> list:
     problems.extend(_difference("number", numbers(src_prose), numbers(out_prose), _plain))
     src_heads = headings(src_prose)
     out_heads = headings(out_prose)
-    if src_heads != out_heads:
+    if len(src_heads) != len(out_heads):
         problems.append(
-            "the source has " + str(src_heads) + " heading" + ("" if src_heads == 1 else "s")
-            + ", the translation has " + str(out_heads)
+            "the source has " + str(len(src_heads)) + " heading" + ("" if len(src_heads) == 1 else "s")
+            + ", the translation has " + str(len(out_heads))
+        )
+    else:
+        for index in range(len(src_heads)):
+            if src_heads[index] != out_heads[index]:
+                problems.append(
+                    "heading " + str(index + 1) + " is " + "#" * src_heads[index] + " in the source and "
+                    + "#" * out_heads[index] + " in the translation"
+                )
+                break
+    src_items = list_items(src_prose)
+    out_items = list_items(out_prose)
+    if src_items != out_items:
+        problems.append(
+            "the source has " + str(src_items) + " list item" + ("" if src_items == 1 else "s")
+            + ", the translation has " + str(out_items)
+        )
+    src_rows = table_rows(src_prose)
+    out_rows = table_rows(out_prose)
+    if src_rows != out_rows:
+        problems.append(
+            "the source has " + str(src_rows) + " table row" + ("" if src_rows == 1 else "s")
+            + ", the translation has " + str(out_rows)
         )
     src_len = len(source.strip())
     out_len = len(translation.strip())
@@ -847,9 +1020,23 @@ class Faithful(gl.contract.Contract):
         slot.translator = ZERO
 
     def _expire(self, key: str, now: int) -> bool:
-        """Release one claim if its 48 hours are over. A claim waiting for the judge never expires."""
+        """
+        Release one claim whose time is over: a claim not submitted within its
+        hours, or a submission that waited JUDGE_HOURS without a verdict, which
+        is marked UNJUDGED. Neither bars the translator.
+        """
         slot = self.slots[key]
-        if slot.state != CLAIMED or now < int(slot.expires_at):
+        if slot.state == CLAIMED:
+            if now < int(slot.expires_at):
+                return False
+        elif slot.state == JUDGING:
+            s = self.submissions[str(int(slot.latest))]
+            if now < int(s.submitted_at) + JUDGE_HOURS * HOUR:
+                return False
+            s.verdict = UNJUDGED
+            s.judged_at = u64(now)
+            s.judged_by = gl.message.sender_address
+        else:
             return False
         section = self.sections[key.split(":")[0]]
         p = self.programs[str(int(section.program_id))]
@@ -1070,18 +1257,23 @@ class Faithful(gl.contract.Contract):
         if s.verdict == PRECHECK_FAILED:
             raise gl.vm.UserError(E + "this submission failed the exact checks and is never judged")
         if s.verdict != PENDING:
-            raise gl.vm.UserError(E + "this submission is already judged")
+            raise gl.vm.UserError(E + "this submission is no longer waiting for a verdict")
+        now = self._now()
+        key = str(int(s.section_id)) + ":" + s.lang
+        if now >= int(s.submitted_at) + JUDGE_HOURS * HOUR:
+            # The bounded recovery: past the window no model runs; the claim is
+            # released without a bar and the reserve returns to the pool.
+            self._expire(key, now)
+            return UNJUDGED
         section = self.sections[str(int(s.section_id))]
         p = self.programs[str(int(s.program_id))]
         prompt = build_prompt(p.src_lang, section.text, s.lang, p.glossary, s.text)
         out = run_judgment(prompt)
         verdict = out["verdict"]
-        now = self._now()
         s.verdict = verdict
         s.reason = out["reason"]
         s.judged_at = u64(now)
         s.judged_by = gl.message.sender_address
-        key = str(int(s.section_id)) + ":" + s.lang
         slot = self.slots[key]
         if verdict == FAITHFUL:
             rate = int(p.rate)
@@ -1101,6 +1293,8 @@ class Faithful(gl.contract.Contract):
         elif verdict == FLAWED and int(s.attempt) < MAX_ATTEMPTS:
             slot.state = CLAIMED
             slot.attempt = u32(int(s.attempt) + 1)
+            if int(slot.expires_at) < now + REVISION_HOURS * HOUR:
+                slot.expires_at = u64(now + REVISION_HOURS * HOUR)
         else:
             self._release(p, key, slot, True)
         return verdict
@@ -1169,10 +1363,14 @@ class Faithful(gl.contract.Contract):
     def _slot_json(self, section_id: int, code: str) -> dict:
         slot = self.slots.get(str(int(section_id)) + ":" + code, None)
         if slot is None:
-            return {"lang": code, "state": OPEN, "translator": "", "claimed_at": 0, "expires_at": 0, "attempt": 0, "latest": 0, "last_verdict": "", "approved": 0}
+            return {"lang": code, "state": OPEN, "translator": "", "claimed_at": 0, "expires_at": 0, "attempt": 0, "latest": 0, "last_verdict": "", "approved": 0, "judge_deadline": 0}
         last = ""
+        deadline = 0
         if int(slot.latest) > 0:
-            last = self.submissions[str(int(slot.latest))].verdict
+            latest = self.submissions[str(int(slot.latest))]
+            last = latest.verdict
+            if slot.state == JUDGING:
+                deadline = int(latest.submitted_at) + JUDGE_HOURS * HOUR
         return {
             "lang": code,
             "state": slot.state,
@@ -1183,6 +1381,7 @@ class Faithful(gl.contract.Contract):
             "latest": int(slot.latest),
             "last_verdict": last,
             "approved": int(slot.approved),
+            "judge_deadline": deadline,
         }
 
     def _program_json(self, program_id: int, p: Program) -> dict:

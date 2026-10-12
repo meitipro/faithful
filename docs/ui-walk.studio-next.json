@@ -1,0 +1,163 @@
+{
+  "site": "https://faithful-genlayer.vercel.app",
+  "contract": "0xF8c1E884228b0e31bE304abaB6e3c6E5C6C744E1",
+  "date": "2026-10-12",
+  "wallets": {
+    "maintainer": "0x455c634dCb7956CAEC8bF50663248A7162a57aBf",
+    "translator": "0x08698Cd471D205bed52aEF0e3B518013149F446e"
+  },
+  "note": "Two in-page EIP-1193 wallets with keys generated inside the page and never shown; every click a button on the deployed site. Both wallets started at 0 GEN and were funded only by the site's Get test GEN (20 GEN each).",
+  "steps": [
+    {
+      "label": "maintainer: open program 4 with 5 GEN",
+      "who": "maintainer",
+      "tx": "0xaa1e32fc49d384ba09190be65619148acda6b397eab2f6b127b4277b1fa36371",
+      "value": "5000000000000000000"
+    },
+    {
+      "label": "maintainer: add the imported section",
+      "who": "maintainer",
+      "tx": "0x77e5d9c3e2d865b6191c707649f6f96a21f87d49dd4ee8c669f6fcefe3cd8b17",
+      "value": "0"
+    },
+    {
+      "label": "translator: claim section 37",
+      "who": "translator",
+      "tx": "0xd4e249f975ba250d0142eeff97ce92557e7ed781f0bc125d961561e123dc8f2d",
+      "value": "0"
+    },
+    {
+      "label": "translator: submit",
+      "who": "translator",
+      "tx": "0x1c73e2cc945dbb39f0f496199b3ad3183dfe44dc9a4d2de1fd959dafc64710d9",
+      "value": "0"
+    },
+    {
+      "label": "translator: judge, FAITHFUL",
+      "who": "translator",
+      "tx": "0x2b687fb95e54833d481010297977835349b714f9ba35357a16a330cfb460fa73",
+      "value": "0"
+    },
+    {
+      "label": "translator: withdraw 2 GEN",
+      "who": "translator",
+      "tx": "0x421b167bc1c5d842e50ad8167052877fa8542a183c79bfba6a9d1f556f825189",
+      "value": "0",
+      "paid": "2000000000000000000"
+    },
+    {
+      "label": "maintainer: close, 3 GEN back",
+      "who": "maintainer",
+      "tx": "0x4a7bfd353b5bdafa96a4ca1cab319c180ea0d90493962bff4b385dc08fbb5894",
+      "value": "0",
+      "paid": "3000000000000000000"
+    }
+  ],
+  "receipts": [
+    {
+      "tx": "0xaa1e32fc49d384ba09190be65619148acda6b397eab2f6b127b4277b1fa36371",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "result": "return",
+      "returned": 4,
+      "refusal": "",
+      "ok": true,
+      "fees": "settled",
+      "label": "maintainer: open program 4 with 5 GEN"
+    },
+    {
+      "tx": "0x77e5d9c3e2d865b6191c707649f6f96a21f87d49dd4ee8c669f6fcefe3cd8b17",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "result": "return",
+      "returned": 37,
+      "refusal": "",
+      "ok": true,
+      "fees": "settled",
+      "label": "maintainer: add the imported section"
+    },
+    {
+      "tx": "0xd4e249f975ba250d0142eeff97ce92557e7ed781f0bc125d961561e123dc8f2d",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "result": "return",
+      "returned": 1791960159,
+      "refusal": "",
+      "ok": true,
+      "fees": "settled",
+      "label": "translator: claim section 37"
+    },
+    {
+      "tx": "0x1c73e2cc945dbb39f0f496199b3ad3183dfe44dc9a4d2de1fd959dafc64710d9",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "result": "return",
+      "returned": 38,
+      "refusal": "",
+      "ok": true,
+      "fees": "settled",
+      "label": "translator: submit"
+    },
+    {
+      "tx": "0x2b687fb95e54833d481010297977835349b714f9ba35357a16a330cfb460fa73",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "result": "return",
+      "returned": "FAITHFUL",
+      "refusal": "",
+      "ok": true,
+      "fees": "settled",
+      "label": "translator: judge, FAITHFUL"
+    },
+    {
+      "tx": "0x421b167bc1c5d842e50ad8167052877fa8542a183c79bfba6a9d1f556f825189",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "result": "return",
+      "returned": 2000000000000000000,
+      "refusal": "",
+      "ok": true,
+      "fees": "settled",
+      "label": "translator: withdraw 2 GEN"
+    },
+    {
+      "tx": "0x4a7bfd353b5bdafa96a4ca1cab319c180ea0d90493962bff4b385dc08fbb5894",
+      "status": "FINALIZED",
+      "execution": "SUCCESS",
+      "result": "return",
+      "returned": 3000000000000000000,
+      "refusal": "",
+      "ok": true,
+      "fees": "settled",
+      "label": "maintainer: close, 3 GEN back"
+    }
+  ],
+  "reconciliation": {
+    "maintainer": {
+      "expected": "17999691427999991531",
+      "balance": "17999716427999991531",
+      "difference": "25000000000000"
+    },
+    "translator": {
+      "expected": "21999612054499988708",
+      "balance": "21999637054499988708",
+      "difference": "25000000000000"
+    }
+  },
+  "read_back": {
+    "program_4": {
+      "pool": "0",
+      "paid": "2000000000000000000",
+      "returned": "3000000000000000000",
+      "funded": "5000000000000000000",
+      "closed": true
+    },
+    "section_37_fa": "APPROVED",
+    "submission": {
+      "id": 38,
+      "verdict": "FAITHFUL",
+      "credited": "2000000000000000000",
+      "reason": "The Persian translation accurately preserves the heading, the fee amount, the unit GEN, and the condition 'per section' with natural technical wording."
+    }
+  }
+}

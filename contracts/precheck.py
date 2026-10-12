@@ -2,16 +2,19 @@
 The exact pre-checks, as pure code.
 
 A translation is compared with its source before any model runs. Code blocks,
-inline code, links, numbers and headings are things a reader of technical docs
+inline code, links, numbers and structure are things a reader of technical docs
 relies on character for character, so they are compared by code, never judged:
 
   - every fenced code block identical, in order
   - every inline code span identical (in any order: word order moves between
     languages, and inline code moves with it)
   - every http(s) link identical (in any order, for the same reason)
-  - the same multiset of numbers, after Persian and Arabic-Indic digits are
-    converted to ASCII
-  - the same number of Markdown headings
+  - the same numbers, compared by value after Persian and Arabic-Indic digits
+    are converted to ASCII, so thousands separators and decimal marks may
+    follow the target language while 0.4 and 4.0 stay different; a version
+    such as 0.6.0 is compared as written
+  - the same headings at the same levels, in order
+  - the same number of list items and table rows
   - a length ratio between 0.4 and 2.5
 
 This file is the source of truth. The block between the precheck markers in
@@ -146,21 +149,93 @@ def split_urls(prose: str) -> list:
     return [urls, "".join(rest)]
 
 
+#: Characters that may sit between the digit groups of one written number.
+#: "." and "," are decimal or thousands by position; the Persian decimal sign
+#: (U+066B) is always decimal; the Persian thousands sign (U+066C), the
+#: apostrophes and the no-break spaces are always thousands.
+NUM_SEPS = ".,٫٬'’  "
+
+
+def _canonical(whole: str, frac: str) -> str:
+    whole = whole.lstrip("0")
+    if whole == "":
+        whole = "0"
+    frac = frac.rstrip("0")
+    return whole + ("." + frac if frac != "" else "")
+
+
+def number_value(groups: list, seps: list) -> str:
+    """
+    One written number as its value, so formatting never counts and value
+    always does: 2,500 and 2.500 and 2500 (and the Persian forms) all read
+    2500; 0,4 reads 0.4 and 4.0 reads 4. A separator followed by exactly three
+    digits after a group of one to three is a thousands separator; a single "."
+    or "," otherwise is the decimal point. A written form that is not a number
+    (a version such as 0.6.0) is kept as written and compared exactly.
+    """
+    literal = groups[0]
+    for i in range(len(seps)):
+        sep = seps[i]
+        if sep == "٫":
+            sep = "."
+        elif sep == "٬":
+            sep = ","
+        literal += sep + groups[i + 1]
+    if len(seps) == 0:
+        return _canonical(groups[0], "")
+    last = seps[len(seps) - 1]
+    decimal_at = -1
+    if last == "٫":
+        if seps.count("٫") != 1:
+            return literal
+        decimal_at = len(seps) - 1
+    elif (last == "." or last == ",") and seps.count(last) == 1:
+        if len(seps) > 1:
+            decimal_at = len(seps) - 1
+        elif not (len(groups[1]) == 3 and 1 <= len(groups[0]) <= 3):
+            decimal_at = 0
+    int_end = decimal_at if decimal_at >= 0 else len(seps)
+    if int_end > 0:
+        if len(groups[0]) < 1 or len(groups[0]) > 3:
+            return literal
+        for i in range(int_end):
+            if seps[i] != seps[0] or seps[i] == "٫" or len(groups[i + 1]) != 3:
+                return literal
+    whole = "".join(groups[: int_end + 1])
+    frac = groups[decimal_at + 1] if decimal_at >= 0 else ""
+    return _canonical(whole, frac)
+
+
 def numbers(prose: str) -> list:
-    """Every run of digits, after digit normalisation. 2,500 and 2.500 and ۲٬۵۰۰ all read as 2 and 500."""
+    """Every number in the prose, by value (see number_value), after digit normalisation."""
+    text = normalise_digits(prose)
     found = []
-    current = []
-    for char in normalise_digits(prose) + " ":
-        if ASCII_DIGITS.find(char) >= 0:
-            current.append(char)
-        elif len(current) > 0:
-            found.append("".join(current))
-            current = []
+    i = 0
+    n = len(text)
+    while i < n:
+        if ASCII_DIGITS.find(text[i]) < 0:
+            i += 1
+            continue
+        groups = []
+        seps = []
+        start = i
+        while i < n and ASCII_DIGITS.find(text[i]) >= 0:
+            i += 1
+        groups.append(text[start:i])
+        while i + 1 < n and NUM_SEPS.find(text[i]) >= 0 and ASCII_DIGITS.find(text[i + 1]) >= 0:
+            seps.append(text[i])
+            i += 1
+            start = i
+            while i < n and ASCII_DIGITS.find(text[i]) >= 0:
+                i += 1
+            groups.append(text[start:i])
+        found.append(number_value(groups, seps))
     return found
 
 
-def headings(prose: str) -> int:
-    count = 0
+def headings(prose: str) -> list:
+    """The level of every Markdown heading, in order: [2, 3] for a ## and then a ###."""
+    levels = []
     for line in prose.split("\n"):
         stripped = line.lstrip(" ")
         if len(line) - len(stripped) > 3:
@@ -169,6 +244,31 @@ def headings(prose: str) -> int:
         while level < len(stripped) and stripped[level] == "#":
             level += 1
         if 1 <= level <= 6 and (len(stripped) == level or stripped[level] == " "):
+            levels.append(level)
+    return levels
+
+
+def list_items(prose: str) -> int:
+    """Lines that open a list item: "- ", "* ", "+ ", or a number followed by ". " or ") ", at any depth."""
+    count = 0
+    for line in normalise_digits(prose).split("\n"):
+        stripped = line.lstrip(" \t")
+        if stripped[:2] in ("- ", "* ", "+ "):
+            count += 1
+            continue
+        digits = 0
+        while digits < len(stripped) and ASCII_DIGITS.find(stripped[digits]) >= 0:
+            digits += 1
+        if 1 <= digits <= 9 and stripped[digits : digits + 2] in (". ", ") "):
+            count += 1
+    return count
+
+
+def table_rows(prose: str) -> int:
+    """Lines of a Markdown table, the separator row included."""
+    count = 0
+    for line in prose.split("\n"):
+        if line.lstrip(" ").startswith("|"):
             count += 1
     return count
 
@@ -218,7 +318,8 @@ def _ratio_text(pct: int) -> str:
 def precheck(source: str, translation: str) -> list:
     """
     Every exact difference between a source section and a translation, in a
-    fixed order: code blocks, inline code, links, numbers, headings, length.
+    fixed order: code blocks, inline code, links, numbers, headings, list
+    items, table rows, length.
     An empty list means the translation may be judged.
     """
     problems = []
@@ -242,10 +343,32 @@ def precheck(source: str, translation: str) -> list:
     problems.extend(_difference("number", numbers(src_prose), numbers(out_prose), _plain))
     src_heads = headings(src_prose)
     out_heads = headings(out_prose)
-    if src_heads != out_heads:
+    if len(src_heads) != len(out_heads):
         problems.append(
-            "the source has " + str(src_heads) + " heading" + ("" if src_heads == 1 else "s")
-            + ", the translation has " + str(out_heads)
+            "the source has " + str(len(src_heads)) + " heading" + ("" if len(src_heads) == 1 else "s")
+            + ", the translation has " + str(len(out_heads))
+        )
+    else:
+        for index in range(len(src_heads)):
+            if src_heads[index] != out_heads[index]:
+                problems.append(
+                    "heading " + str(index + 1) + " is " + "#" * src_heads[index] + " in the source and "
+                    + "#" * out_heads[index] + " in the translation"
+                )
+                break
+    src_items = list_items(src_prose)
+    out_items = list_items(out_prose)
+    if src_items != out_items:
+        problems.append(
+            "the source has " + str(src_items) + " list item" + ("" if src_items == 1 else "s")
+            + ", the translation has " + str(out_items)
+        )
+    src_rows = table_rows(src_prose)
+    out_rows = table_rows(out_prose)
+    if src_rows != out_rows:
+        problems.append(
+            "the source has " + str(src_rows) + " table row" + ("" if src_rows == 1 else "s")
+            + ", the translation has " + str(out_rows)
         )
     src_len = len(source.strip())
     out_len = len(translation.strip())

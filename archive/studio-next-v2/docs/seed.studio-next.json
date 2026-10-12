@@ -1,0 +1,253 @@
+{
+  "steps": {
+    "network-fa-1": {
+      "translator": "0x8C59E71C2eDe7A35d5053ff22E832FeCa0514005",
+      "section": "network",
+      "lang": "fa",
+      "why": "a changed number, refused by the exact checks",
+      "claim_tx": "0xad9576628692824fe4d8951e911e7a1cf0fc47f5a529f17d91a0ac76423d610a",
+      "submit_tx": "0x7322a6fe568805a4618a4a39dc5ff3bf04573e40cf6ee75e5623a43de0c4a69c",
+      "submission_id": 5,
+      "verdict": "PRECHECK_FAILED",
+      "problems": [
+        "number 61997 is missing",
+        "number 61998 is not in the source"
+      ]
+    },
+    "network-fa-2": {
+      "translator": "0x8C59E71C2eDe7A35d5053ff22E832FeCa0514005",
+      "section": "network",
+      "lang": "fa",
+      "why": "the number fixed, in Persian digits",
+      "submit_tx": "0x872f6190e2f8c8f93a10b3cd118745fc12e70e83b220bc5e61378e23b640fceb",
+      "submission_id": 6,
+      "verdict": "FAITHFUL",
+      "problems": [],
+      "judge_attempts": [
+        {
+          "tx": "0x5541234361ae77521f00fe140dfb3c83f9f1762497bf6ed0bc18a33afed4aaaa",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "reason": "The translation preserves the meaning, numbers, and glossary term, with natural Persian phrasing.",
+      "credited": "12000000000000000000",
+      "judge_tx": "0x5541234361ae77521f00fe140dfb3c83f9f1762497bf6ed0bc18a33afed4aaaa"
+    },
+    "warning-fa-1": {
+      "translator": "0x8C59E71C2eDe7A35d5053ff22E832FeCa0514005",
+      "section": "warning",
+      "lang": "fa",
+      "why": "a softened warning with its last clause dropped",
+      "claim_tx": "0x3cbe3d9067b151771d26b6f353013206490414518b25e38b47f4b3d21374c123",
+      "submit_tx": "0xaa91cec59b591d94cbde8f487527e1a6cb2fb620d783906a2772464713c70501",
+      "submission_id": 8,
+      "verdict": "FLAWED",
+      "problems": [],
+      "judge_attempts": [
+        {
+          "tx": "0x6c8ecbc409d2a6edc4697972292add4f293d083192c9f6b696bd930c741c3336",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "reason": "Warning softened from absolute 'Never' to 'better not to' and final clause 'where anyone can read it' omitted.",
+      "credited": "0",
+      "judge_tx": "0x6c8ecbc409d2a6edc4697972292add4f293d083192c9f6b696bd930c741c3336"
+    },
+    "warning-fa-2": {
+      "translator": "0x8C59E71C2eDe7A35d5053ff22E832FeCa0514005",
+      "section": "warning",
+      "lang": "fa",
+      "why": "the revision",
+      "submit_tx": "0x942ceb3e5b79c9a1e0bb7ea350cceff784fae33a2596a141c06ab3169eb88d8d",
+      "submission_id": 10,
+      "verdict": "FAITHFUL",
+      "problems": [],
+      "judge_attempts": [
+        {
+          "tx": "0x08e67fef336b4ee2743e3dcbe49bd45580e37ed21d5b099099200aa65b417445",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "reason": "Translation matches source meaning exactly, follows glossary, preserves all warnings, and reads naturally in Persian technical style.",
+      "credited": "12000000000000000000",
+      "judge_tx": "0x08e67fef336b4ee2743e3dcbe49bd45580e37ed21d5b099099200aa65b417445"
+    },
+    "claims-fa": {
+      "translator": "0x8C59E71C2eDe7A35d5053ff22E832FeCa0514005",
+      "section": "claims",
+      "lang": "fa",
+      "why": "a list with inline code and a number",
+      "claim_tx": "0x8c635608a5b51c3e502df53497678edce3b223c010be9d8fa9f03d20215158ef",
+      "submit_tx": "0x36b50da394589293e4bf4336d42296a185c57306d4fbd71fc72d4ab61f0cb191",
+      "submission_id": 12,
+      "verdict": "FLAWED",
+      "problems": [],
+      "judge_attempts": [
+        {
+          "tx": "0x1299f61b745b7f38684e4033469ccf98cb79625630fa2c4d092010f4ffda4c27",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "reason": "The phrase 'یک نرخ را از استخر (pool) کنار می‌گذارد' changes the meaning of 'reserves one rate from the pool' to 'sets aside a rate', which is imprecise and could imply removal rather than allocation ",
+      "credited": "0",
+      "judge_tx": "0x1299f61b745b7f38684e4033469ccf98cb79625630fa2c4d092010f4ffda4c27"
+    },
+    "wrong-fa": {
+      "translator": "0x8C59E71C2eDe7A35d5053ff22E832FeCa0514005",
+      "section": "wrong",
+      "lang": "fa",
+      "why": "a kept term",
+      "claim_tx": "0xbb8f833f0df7ae0ff438724a8546cb09ddac40a759c3f789be5b46c84f8434f9",
+      "submit_tx": "0x50542aa4830129287f2553af0973a67c94812dc48886229946bd6d6682c2197c",
+      "submission_id": 15,
+      "verdict": "FAITHFUL",
+      "problems": [],
+      "judge_attempts": [
+        {
+          "tx": "0xc3c04313a9a86c335e2e3152b6533bd3cc9fd79f0e771a96dd843e8edd3be0e5",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "reason": "The translation accurately conveys the source meaning, follows the glossary requirements, and uses natural technical Persian phrasing.",
+      "credited": "12000000000000000000",
+      "judge_tx": "0xc3c04313a9a86c335e2e3152b6533bd3cc9fd79f0e771a96dd843e8edd3be0e5"
+    },
+    "claims-es": {
+      "translator": "0x1c3c906A8B0dB60Df433d0E4e333B2C8Fbd6318B",
+      "section": "claims",
+      "lang": "es",
+      "why": "a list with inline code and a number",
+      "claim_tx": "0xe4cd7f896bba126e843ac22541617c8387f8824770d374ee76d85f8bb3c0b838",
+      "submit_tx": "0xb4d4012ec4ed0cfab9e1c79770b6b253299e48d76eede88020d70f6646498b52",
+      "submission_id": 17,
+      "verdict": "FLAWED",
+      "problems": [],
+      "judge_attempts": [
+        {
+          "tx": "0xd582a71388803faf2c9019bf42483ee2a0971c71f963d3a171d43d9e44db70bf",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "reason": "First problem: “reserva una tarifa del fondo” changes the meaning of “reserves one rate from the pool,” since “tarifa” means fee/fare rather than the intended rate/slot from the pool.",
+      "credited": "0",
+      "judge_tx": "0xd582a71388803faf2c9019bf42483ee2a0971c71f963d3a171d43d9e44db70bf"
+    },
+    "warning-es": {
+      "translator": "0x1c3c906A8B0dB60Df433d0E4e333B2C8Fbd6318B",
+      "section": "warning",
+      "lang": "es",
+      "why": "the warning",
+      "claim_tx": "0x085e91a33eafe6e56180124376c6cc5af79259d8263926b57c78592968a0c3eb",
+      "submit_tx": "0x1da1f076a33dca269b9d986f6bef96e2c7eddc67814bc143a1331454bed841d4",
+      "submission_id": 19,
+      "verdict": "FAITHFUL",
+      "problems": [],
+      "judge_attempts": [
+        {
+          "tx": "0x7fd7f74b6adeca482ea338a5c69690a155405844e7e5150a38eb6179f1bb6a63",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "reason": "The translation accurately conveys all warnings, follows the glossary, and uses natural technical Spanish.",
+      "credited": "12000000000000000000",
+      "judge_tx": "0x7fd7f74b6adeca482ea338a5c69690a155405844e7e5150a38eb6179f1bb6a63"
+    },
+    "wrong-es": {
+      "translator": "0x1c3c906A8B0dB60Df433d0E4e333B2C8Fbd6318B",
+      "section": "wrong",
+      "lang": "es",
+      "why": "a kept term",
+      "claim_tx": "0x99d529d94a0c803f0c7faaefb7baf26b674bb58e5d54e4d70a67dfcc31ec6af6",
+      "submit_tx": "0x934f41eb3307bb551367eeeb603226f503614df231bb2a3b196347658d4508b7",
+      "submission_id": 21,
+      "verdict": "FAITHFUL",
+      "problems": [],
+      "judge_attempts": [
+        {
+          "tx": "0x0b2f00927b1d9dad0cf02719fa726bfb378c6eaf6278524b191e1e190b4a6624",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "reason": "Accurate translation preserving meaning and using the required glossary term.",
+      "credited": "12000000000000000000",
+      "judge_tx": "0x0b2f00927b1d9dad0cf02719fa726bfb378c6eaf6278524b191e1e190b4a6624"
+    },
+    "network-de": {
+      "translator": "0xeb062544c44EE28bA71C18cDAd8bD29e1e81533E",
+      "section": "network",
+      "lang": "de",
+      "why": "a link kept",
+      "claim_tx": "0x0417dc488d0fc196db08c4812b58d26b2435338d65f19ed2aff8a22388a61e9f",
+      "submit_tx": "0xad8f07b543f8fe29aa2d205fd981b517b9262e5b09d13e4f1159e75e2b025374",
+      "submission_id": 23,
+      "verdict": "FAITHFUL",
+      "problems": [],
+      "judge_attempts": [
+        {
+          "tx": "0x6582bc58b5f0d3bf43d8f58610088fd913c7d5fc8f4a7cce78ec961d38243c72",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "reason": "The translation accurately preserves the meaning, numbers, glossary terms, and structure without additions or omissions.",
+      "credited": "12000000000000000000",
+      "judge_tx": "0x6582bc58b5f0d3bf43d8f58610088fd913c7d5fc8f4a7cce78ec961d38243c72"
+    }
+  },
+  "contract": "0x9Be39946C8D795C133EF2aAD58FC540c168ceA85",
+  "network": "studio-next",
+  "explorer": "https://explorer-studio-dev.genlayer.com",
+  "accounts": {
+    "seed_maintainer": "0x1558FEaA5209F103447731D4733B0a30D5D5FaB7",
+    "seed_translator_fa": "0x8C59E71C2eDe7A35d5053ff22E832FeCa0514005",
+    "seed_translator_es": "0x1c3c906A8B0dB60Df433d0E4e333B2C8Fbd6318B",
+    "seed_translator_de": "0xeb062544c44EE28bA71C18cDAd8bD29e1e81533E"
+  },
+  "program_id": 2,
+  "create_tx": "0x46e084d238fa2e61280859c04ece3157bc86e78a4498e42818ad73e9a87652dc",
+  "created_at": "2026-10-11T19:33:00Z",
+  "note": "create_program landed after the first run was stopped to correct the Claims passage; adopted from the chain (get_program(2), maintainer seed_maintainer).",
+  "sections": {
+    "claims": 14,
+    "warning": 15,
+    "network": 16,
+    "wrong": 17
+  },
+  "sections_tx": "0x26ea02ebc52135ab72486597f25eefdf50374a053ab4f3bf676a7a0c7367446a",
+  "withdraw_tx": "0x5176e28c7b705f1dead1fcbc3c5b54a97e4298654f5c31f9f4fe62ac511037cd",
+  "withdrawn": "36000000000000000000",
+  "program_after": {
+    "pool": "168000000000000000000",
+    "reserved": "24000000000000000000",
+    "paid": "72000000000000000000",
+    "funded": "240000000000000000000",
+    "payable_sections": 12,
+    "live_claims": 2,
+    "approved": {
+      "fa": 3,
+      "es": 2,
+      "de": 1
+    }
+  },
+  "faq": {
+    "sections_tx": "0x2f6a1867db7be2454b449a53078853b0912a61f547ec0b2ec330249138e1bee4",
+    "first_section": 32,
+    "titles": [
+      "Which languages?",
+      "Can I use machine translation?",
+      "What about style?",
+      "Who pays the fees?",
+      "Why is my claim still shown as claimed after 48 hours?"
+    ],
+    "fund_tx": "0x11f6b86a76e9c762b3d0505e847348695fe174f09339fda6ee639dfaa1811e4f",
+    "funded_gen": 200
+  }
+}

@@ -159,30 +159,132 @@ export function splitUrls(proseText) {
   return [urls, rest.join("")];
 }
 
-export function numbers(prose) {
-  const found = [];
-  let current = "";
-  for (const char of normaliseDigits(prose) + " ") {
-    if (ASCII_DIGITS.includes(char)) {
-      current += char;
-    } else if (current.length > 0) {
-      found.push(current);
-      current = "";
+/** Separators inside one written number; see number_value in contracts/precheck.py. */
+const NUM_SEPS = ".,\u066b\u066c'\u2019\u00a0\u202f";
+
+function canonical(whole, frac) {
+  let w = whole.replace(/^0+/, "");
+  if (w === "") w = "0";
+  const f = frac.replace(/0+$/, "");
+  return w + (f !== "" ? "." + f : "");
+}
+
+function countOf(list, item) {
+  return list.filter((x) => x === item).length;
+}
+
+/** One written number as its value, or as written when it is not a number (a version such as 0.6.0). */
+export function numberValue(groups, seps) {
+  let literal = groups[0];
+  for (let i = 0; i < seps.length; i++) {
+    let sep = seps[i];
+    if (sep === "\u066b") sep = ".";
+    else if (sep === "\u066c") sep = ",";
+    literal += sep + groups[i + 1];
+  }
+  if (seps.length === 0) return canonical(groups[0], "");
+  const last = seps[seps.length - 1];
+  let decimalAt = -1;
+  if (last === "\u066b") {
+    if (countOf(seps, "\u066b") !== 1) return literal;
+    decimalAt = seps.length - 1;
+  } else if ((last === "." || last === ",") && countOf(seps, last) === 1) {
+    if (seps.length > 1) decimalAt = seps.length - 1;
+    else if (!(groups[1].length === 3 && groups[0].length >= 1 && groups[0].length <= 3)) decimalAt = 0;
+  }
+  const intEnd = decimalAt >= 0 ? decimalAt : seps.length;
+  if (intEnd > 0) {
+    if (groups[0].length < 1 || groups[0].length > 3) return literal;
+    for (let i = 0; i < intEnd; i++) {
+      if (seps[i] !== seps[0] || seps[i] === "\u066b" || groups[i + 1].length !== 3) return literal;
     }
+  }
+  const whole = groups.slice(0, intEnd + 1).join("");
+  const frac = decimalAt >= 0 ? groups[decimalAt + 1] : "";
+  return canonical(whole, frac);
+}
+
+/** Every number in the prose, by value, after digit normalisation. */
+export function numbers(prose) {
+  const text = Array.from(normaliseDigits(prose));
+  const found = [];
+  let i = 0;
+  const n = text.length;
+  const digit = (c) => ASCII_DIGITS.includes(c);
+  while (i < n) {
+    if (!digit(text[i])) {
+      i += 1;
+      continue;
+    }
+    const groups = [];
+    const seps = [];
+    let start = i;
+    while (i < n && digit(text[i])) i += 1;
+    groups.push(text.slice(start, i).join(""));
+    while (i + 1 < n && NUM_SEPS.includes(text[i]) && digit(text[i + 1])) {
+      seps.push(text[i]);
+      i += 1;
+      start = i;
+      while (i < n && digit(text[i])) i += 1;
+      groups.push(text.slice(start, i).join(""));
+    }
+    found.push(numberValue(groups, seps));
   }
   return found;
 }
 
+/** The level of every Markdown heading, in order. */
 export function headings(prose) {
-  let count = 0;
+  const levels = [];
   for (const line of prose.split("\n")) {
     const stripped = lstripSpaces(line);
     if (line.length - stripped.length > 3) continue;
     let level = 0;
     while (level < stripped.length && stripped[level] === "#") level++;
-    if (level >= 1 && level <= 6 && (stripped.length === level || stripped[level] === " ")) count++;
+    if (level >= 1 && level <= 6 && (stripped.length === level || stripped[level] === " ")) levels.push(level);
+  }
+  return levels;
+}
+
+/** Lines that open a list item, at any depth. */
+export function listItems(prose) {
+  let count = 0;
+  for (const line of normaliseDigits(prose).split("\n")) {
+    let k = 0;
+    while (k < line.length && (line[k] === " " || line[k] === "\t")) k++;
+    const stripped = line.slice(k);
+    const two = stripped.slice(0, 2);
+    if (two === "- " || two === "* " || two === "+ ") {
+      count++;
+      continue;
+    }
+    let digits = 0;
+    while (digits < stripped.length && ASCII_DIGITS.includes(stripped[digits])) digits++;
+    const after = stripped.slice(digits, digits + 2);
+    if (digits >= 1 && digits <= 9 && (after === ". " || after === ") ")) count++;
   }
   return count;
+}
+
+/** Lines of a Markdown table, the separator row included. */
+export function tableRows(prose) {
+  let count = 0;
+  for (const line of prose.split("\n")) if (lstripSpaces(line).startsWith("|")) count++;
+  return count;
+}
+
+function headingProblem(srcHeads, outHeads) {
+  if (srcHeads.length !== outHeads.length) {
+    return `the source has ${srcHeads.length} heading${srcHeads.length === 1 ? "" : "s"}, the translation has ${outHeads.length}`;
+  }
+  for (let i = 0; i < srcHeads.length; i++) {
+    if (srcHeads[i] !== outHeads[i]) return `heading ${i + 1} is ${"#".repeat(srcHeads[i])} in the source and ${"#".repeat(outHeads[i])} in the translation`;
+  }
+  return "";
+}
+
+function countProblem(name, src, out) {
+  return src === out ? "" : `the source has ${src} ${name}${src === 1 ? "" : "s"}, the translation has ${out}`;
 }
 
 function counts(items) {
@@ -268,11 +370,12 @@ export function precheck(source, translation) {
   [outUrls, outProse] = splitUrls(outProse);
   problems.push(...difference("link", srcUrls, outUrls, (x) => x));
   problems.push(...difference("number", numbers(srcProse), numbers(outProse), (x) => x));
-  const srcHeads = headings(srcProse);
-  const outHeads = headings(outProse);
-  if (srcHeads !== outHeads) {
-    problems.push(`the source has ${srcHeads} heading${srcHeads === 1 ? "" : "s"}, the translation has ${outHeads}`);
-  }
+  const heads = headingProblem(headings(srcProse), headings(outProse));
+  if (heads) problems.push(heads);
+  const items = countProblem("list item", listItems(srcProse), listItems(outProse));
+  if (items) problems.push(items);
+  const rows = countProblem("table row", tableRows(srcProse), tableRows(outProse));
+  if (rows) problems.push(rows);
   const srcLen = length(source);
   const outLen = length(translation);
   if (srcLen > 0) {
@@ -301,6 +404,11 @@ export function checkRows(source, translation) {
   const outNums = numbers(outProse);
   const srcHeads = headings(srcProse);
   const outHeads = headings(outProse);
+  const heads = headingProblem(srcHeads, outHeads);
+  const srcItems = listItems(srcProse);
+  const outItems = listItems(outProse);
+  const srcRows = tableRows(srcProse);
+  const outRows = tableRows(outProse);
   const srcLen = length(source);
   const outLen = length(translation);
   const pct = srcLen > 0 ? Math.floor((outLen * 100) / srcLen) : 0;
@@ -335,9 +443,21 @@ export function checkRows(source, translation) {
     },
     {
       key: "headings",
-      label: `Headings: ${outHeads} of ${srcHeads}`,
-      ok: srcHeads === outHeads,
-      detail: srcHeads === outHeads ? "" : `the source has ${srcHeads}`,
+      label: srcHeads.length ? `Headings: ${outHeads.length} of ${srcHeads.length}, same levels` : "No headings in the source",
+      ok: heads === "",
+      detail: heads || (srcHeads.length ? srcHeads.map((l) => "#".repeat(l)).join(" ") : ""),
+    },
+    {
+      key: "lists",
+      label: srcItems ? `List items: ${outItems} of ${srcItems}` : "No list items in the source",
+      ok: srcItems === outItems,
+      detail: srcItems === outItems ? "" : `the source has ${srcItems}`,
+    },
+    {
+      key: "tables",
+      label: srcRows ? `Table rows: ${outRows} of ${srcRows}` : "No tables in the source",
+      ok: srcRows === outRows,
+      detail: srcRows === outRows ? "" : `the source has ${srcRows}`,
     },
     {
       key: "length",

@@ -38,7 +38,7 @@ export type Program = {
 
 export type SlotState = 'OPEN' | 'CLAIMED' | 'JUDGING' | 'APPROVED';
 
-export type Verdict = 'PENDING' | 'PRECHECK_FAILED' | 'FAITHFUL' | 'FLAWED' | 'WRONG_LANGUAGE';
+export type Verdict = 'PENDING' | 'PRECHECK_FAILED' | 'FAITHFUL' | 'FLAWED' | 'WRONG_LANGUAGE' | 'UNJUDGED';
 
 export type Slot = {
   lang: string;
@@ -50,6 +50,8 @@ export type Slot = {
   latest: number;
   last_verdict: Verdict | '';
   approved: number;
+  /** While JUDGING: when the submission stops waiting for a verdict and anyone may release it. */
+  judge_deadline: number;
 };
 
 export type Submission = {

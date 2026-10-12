@@ -24,14 +24,15 @@ faithful section is paid at once. A flawed one says what is wrong.
 
 The parts that do not need judgment are never judged. Code blocks, inline code, links, numbers and headings are
 compared by code inside `submit`, before any model runs; a translation that changes a fee or a command is caught with
-certainty. The judge is left with the one question models answer most consistently: did the meaning survive?
+certainty. Numbers are compared by value, so `2,500` and `2.500` agree while `0.4` and `4.0` do not. The judge is left with the one question models answer most consistently: did the meaning survive?
 
 | Verdict | Meaning | Money | Record |
 |---|---|---|---|
 | FAITHFUL | Same meaning, nothing added or missing, warnings and numbers kept, glossary followed, natural to read | The rate is credited to the translator | Section approved for that language |
 | FLAWED | A change of meaning, an omission, an addition, a softened warning, a wrong glossary term, or confusing wording | Nothing yet; one revision within the claim | The first problem is shown |
 | WRONG LANGUAGE | Not in the target language, or not a translation of the source | Nothing | Claim released |
-| PRE-CHECK FAILED | Code, numbers, links or headings differ from the source | Nothing, and no judge runs | The exact difference is shown |
+| PRE-CHECK FAILED | Code, links, number values, heading levels, list items or table rows differ from the source | Nothing, and no judge runs | The exact difference is shown |
+| NO VERDICT | Validators did not agree within 24 hours | Nothing; the reserve returns | Claim released, translator not barred |
 
 ## What Faithful is not
 

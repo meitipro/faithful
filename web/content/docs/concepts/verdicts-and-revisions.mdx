@@ -20,7 +20,8 @@ natural enough that a native reader of technical docs would not stumble.
 Any change of meaning, omission, addition, softened or reversed warning, wrong glossary term, or wording so unnatural
 it confuses. The judge names the first problem it found.
 
-- The first FLAWED verdict keeps the claim with the translator for **one revision**, within the same 48 hours.
+- The first FLAWED verdict keeps the claim with the translator for **one revision**. The claim keeps its own expiry,
+  or runs 12 more hours if less is left, so a verdict that arrives late still leaves time to revise.
 - A second FLAWED verdict releases the claim. The reserve returns to the pool and the section reopens for everyone
   else.
 
@@ -39,3 +40,10 @@ one is open to every other translator. A claim that simply expired carries no su
 If the committee cannot agree on one label, the transaction ends without a verdict and nothing changes: the
 submission is still waiting, and anyone can call `judge` again for a new round. A model answer that cannot be read is
 retried once and then fails the round; it never becomes a verdict.
+
+## No verdict within 24 hours
+
+A submission waits for a verdict for at most 24 hours. After that, the next `judge`, `claim` or `close` that touches
+it runs no model: it marks the submission `UNJUDGED`, returns the reserve to the pool and reopens the section. The
+translator is not barred, because the failure was not theirs, and may claim the section again. The board shows such
+a cell as Stalled, and the editor's button reads **Release the claim**. Nothing can hold a program open forever.

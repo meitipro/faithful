@@ -30,9 +30,9 @@ Paid docs translations: exact code guards code and numbers, validators judge mea
 
 Faithful pays for documentation translations on the evidence of meaning rather than on trust.
 
-A maintainer funds a program, imports docs as short sections and sets a glossary; translators claim one section in one language for 48 hours. Exact code in submit checks that code blocks, inline code, links, headings and numbers survived, with Persian and Arabic-Indic digits normalised, so a changed fee never reaches a model. Validators then ask whether a reader of the translation gets exactly what a reader of the source gets, and agree on one label: FAITHFUL credits the rate, FLAWED names the first problem and allows one revision, WRONG_LANGUAGE releases the claim. The pool is reserved per claim; payouts are top-level withdraw and close. Approved sections export as Markdown or JSON, each linked to its judge transaction.
+A maintainer funds a program, imports docs as short sections and sets a glossary; translators claim one section in one language for 48 hours. Exact code in submit checks that code blocks, inline code, links, headings and numbers survived, with Persian and Arabic-Indic digits normalised, so a changed fee never reaches a model; numbers are compared by value and heading levels, lists and tables by structure. Validators then ask whether a reader of the translation gets exactly what a reader of the source gets, and agree on one label: FAITHFUL credits the rate, FLAWED names the first problem and allows one revision, WRONG_LANGUAGE releases the claim. The pool is reserved per claim; payouts are top-level withdraw and close. Approved sections export as Markdown or JSON, each linked to its judge transaction.
 
-Deployed on Studio Next. Golden cases through real consensus, published as they came out: 9 of 10, held-out 3 of 3.
+Deployed on Studio Next. Through real consensus, published as they came out: golden 10 of 10, held-out 3 of 3, multilingual 14 of 14.
 
 ## Show it in action
 
@@ -72,7 +72,7 @@ The editor shows the verdict and reason, the section turns OK on the board, Tran
 
 ### Contract link
 
-https://explorer-studio-dev.genlayer.com/address/0x3762367564e2849380A761539E833D0A930D6e8f
+https://explorer-studio-dev.genlayer.com/address/0xF8c1E884228b0e31bE304abaB6e3c6E5C6C744E1
 
 ## Send people to it
 
@@ -81,19 +81,18 @@ https://explorer-studio-dev.genlayer.com/address/0x3762367564e2849380A761539E833
 
 ## Steward note
 
-Golden set 9 of 10: case 5, a German plural of a kept glossary term, was judged FLAWED where the spec expected FAITHFUL; published as a miss, untuned. The contract adds one view to the spec's twelve, list_submissions, for the translator page. A claim past 48 hours is released by the next claim or close; the site shows it open at once. Models are weaker in rare languages: pair them with a human check.
+Thank you for the review. Every point is now in the deployed contract (v3, 0xF8c1E884…) or in the evidence: a 24-hour bound on judging with a release that never bars the translator; heading levels, lists and tables compared; numbers compared by value; kept glossary terms found by code with their endings, so the German case is now FAITHFUL; a new 14-case multilingual set; and the full path, payout and refund, walked through the frontend.
 
 ## Evidence
 
-- Contract: https://explorer-studio-dev.genlayer.com/address/0x3762367564e2849380A761539E833D0A930D6e8f
-- Deploy: https://explorer-studio-dev.genlayer.com/tx/0xada2ee1dc55614ac9c6d070f4cd7c5b8f98549d5cefb9ef0f35a7d3ae8f1fa7f
-- Live UI walk, claim: https://explorer-studio-dev.genlayer.com/tx/0x2c70dba137fe6fa2062d11df8b90dce8401f3e33178e0d75a2dedb8eb416dbe9
-- Live UI walk, first judge, FLAWED with the problem named: https://explorer-studio-dev.genlayer.com/tx/0x3712c52e2b2124c975ef4d86e63bfaded930989c6b9b7f62135375d4a86c5523
-- Live UI walk, revision judged FAITHFUL: https://explorer-studio-dev.genlayer.com/tx/0xe6b5ef03e8ab0ab994e93daebb749dd998eb021e00d7434f43e31c79d617354d
-- Live UI walk, withdraw: https://explorer-studio-dev.genlayer.com/tx/0x1860518f81bb6e5954bc9fa80d871a40e749b96d3ea1d02aa43f8cb5516601d8
-- A changed number refused by the exact checks on chain, no judge: https://explorer-studio-dev.genlayer.com/tx/0x22df393ed296c9f9049f2eff0b0cc961bd3cca411346261d9fefd9dcb9a1a1fc
-- Portuguese submitted for Spanish, WRONG_LANGUAGE: https://explorer-studio-dev.genlayer.com/tx/0xe9c472a2955d57488e9e4ddf6c30c48ce791f4177a070fdd684e5db5d30ac4c5
-- Close refused while a claim is open: https://explorer-studio-dev.genlayer.com/tx/0xa9aefd9175b10ae00923bcc748ddc934472a3b946c2a27d9e491e5a421e33bfd
-- Close returning the unused pool: https://explorer-studio-dev.genlayer.com/tx/0x3a034bda436a65cd766722dce7be750e8b41fe3917615eb4aebaadc9393e7e95
-- Evaluation with every transaction: https://faithful-genlayer.vercel.app/docs/more/evaluation
-- Persian export: https://faithful-genlayer.vercel.app/export/2/fa
+- Contract (v3): https://explorer-studio-dev.genlayer.com/address/0xF8c1E884228b0e31bE304abaB6e3c6E5C6C744E1
+- Deploy: https://explorer-studio-dev.genlayer.com/tx/0x478f9c0029c66e2e6cb382004684e9d84bb81aad6266641e6b3e3e05ca8d9c25
+- What changed after the review: https://github.com/meitipro/faithful#after-the-steward-review
+- Frontend walk with every receipt: https://github.com/meitipro/faithful/blob/main/docs/ui-walk.studio-next.md
+- Walk, program opened from the site: https://explorer-studio-dev.genlayer.com/tx/0xaa1e32fc49d384ba09190be65619148acda6b397eab2f6b127b4277b1fa36371
+- Walk, judge FAITHFUL: https://explorer-studio-dev.genlayer.com/tx/0x2b687fb95e54833d481010297977835349b714f9ba35357a16a330cfb460fa73
+- Walk, translator withdraw: https://explorer-studio-dev.genlayer.com/tx/0x421b167bc1c5d842e50ad8167052877fa8542a183c79bfba6a9d1f556f825189
+- Walk, close with the unused-funding refund: https://explorer-studio-dev.genlayer.com/tx/0x4a7bfd353b5bdafa96a4ca1cab319c180ea0d90493962bff4b385dc08fbb5894
+- Evaluation, all sets and earlier contracts: https://faithful-genlayer.vercel.app/docs/more/evaluation
+- Multilingual results: https://github.com/meitipro/faithful/blob/main/eval/results-multilingual.md
+- Mutations, 99 of 99: https://github.com/meitipro/faithful/blob/main/docs/MUTATIONS.md

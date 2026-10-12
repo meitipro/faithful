@@ -9,6 +9,12 @@ test checks each one still appears there). The translations into Persian,
 Spanish and German were written for this seed by the build agent, the way a
 community translator would, and every verdict below is the validators'.
 
+This seed runs on the contract redeployed after the steward review (the
+earlier seeds, on the superseded contracts, are in archive/studio-next-v1/docs/
+and archive/studio-next-v2/docs/).
+Its Persian and Spanish "Claims" texts carry the corrections the first run's
+validators asked for.
+
 The run walks the demo of section 9 of the build spec, on chain:
   - a Persian translation with a changed number is refused by the exact checks,
     fixed, and judged;
@@ -59,8 +65,8 @@ SECTIONS = [
         "- A translator holds at most three live claims at once.\n"
         "- A claim that is not submitted in time reopens the section. The contract has no clock of its own, so an expired\n"
         "  claim is released by the next claim or close that touches it; the site already shows it as open.\n"
-        "- A submission waiting for the judge never expires. Anyone can call `judge` on it, so a translator who stops after\n"
-        "  submitting cannot block the maintainer from closing.",
+        "- A submission waiting for the judge holds the claim for at most 24 hours. Anyone can call `judge` on it; if no verdict\n"
+        "  comes by then, the next judge, claim or close releases it without one, so nobody can block the maintainer from closing.",
     ),
     (
         "warning",
@@ -84,17 +90,17 @@ SECTIONS = [
 
 FA_CLAIMS = (
     "## رزروها\n\n"
-    "- `claim(section_id, lang)` یک بخش را در یک زبان به مدت ۴۸ ساعت قفل می‌کند و نرخ یک بخش را از صندوق کنار می‌گذارد.\n"
+    "- `claim(section_id, lang)` یک بخش را در یک زبان به مدت ۴۸ ساعت قفل می‌کند و مبلغِ یک نرخ را از استخر (pool) رزرو می‌کند.\n"
     "- هر مترجم در هر لحظه حداکثر سه رزرو فعال دارد.\n"
-    "- رزروی که به‌موقع ارسال نشود، بخش را دوباره باز می‌کند. قرارداد ساعت مستقلی ندارد، بنابراین رزرو منقضی‌شده با نخستین رزرو یا بستنی که به آن برسد آزاد می‌شود؛ سایت آن را از همان لحظه باز نشان می‌دهد.\n"
-    "- ارسالی که منتظر داور است هرگز منقضی نمی‌شود. هر کسی می‌تواند `judge` را برای آن فراخوانی کند، بنابراین مترجمی که پس از ارسال کنار بکشد نمی‌تواند مانع بستن برنامه توسط نگهدارنده شود."
+    "- رزروی که به‌موقع ارسال نشود، بخش را دوباره باز می‌کند. قرارداد ساعت مستقلی ندارد، بنابراین رزرو منقضی‌شده با رزرو یا عملیات بستنِ بعدی‌ای که به آن مربوط شود آزاد می‌شود؛ سایت آن را از همان لحظه باز نشان می‌دهد.\n"
+    "- ارسالی که منتظر داور است حداکثر ۲۴ ساعت رزرو را نگه می‌دارد. هر کسی می‌تواند `judge` را برای آن فراخوانی کند؛ اگر تا آن زمان حکمی صادر نشود، فراخوانی بعدیِ judge، رزرو یا بستن آن را بدون حکم آزاد می‌کند، بنابراین هیچ‌کس نمی‌تواند مانع بستن توسط نگهدارنده شود."
 )
 ES_CLAIMS = (
     "## Reservas\n\n"
-    "- `claim(section_id, lang)` bloquea una sección en un idioma durante 48 horas y reserva una tarifa del fondo.\n"
+    "- `claim(section_id, lang)` bloquea una sección en un idioma durante 48 horas y reserva del fondo el importe de una tarifa.\n"
     "- Cada traductor tiene como máximo tres reservas activas a la vez.\n"
     "- Una reserva que no se envía a tiempo vuelve a abrir la sección. El contrato no tiene reloj propio, así que una reserva vencida se libera con la siguiente reserva o cierre que la toque; el sitio ya la muestra como abierta.\n"
-    "- Un envío que espera al juez nunca vence. Cualquiera puede llamar a `judge` sobre él, así que un traductor que se detiene después de enviar no puede impedir que el mantenedor cierre el programa."
+    "- Un envío que espera al juez retiene la reserva como máximo 24 horas. Cualquiera puede llamar a `judge` sobre él; si no llega un veredicto en ese plazo, el siguiente judge, reserva o cierre lo libera sin veredicto, así que nadie puede impedir que el mantenedor cierre."
 )
 
 #: (step key, translator, section key, lang, text, what the step demonstrates)
@@ -112,21 +118,10 @@ STEPS = [
      "هرگز کلید خصوصی یا عبارت بازیابی را در ترجمه قرار ندهید. هر چیزی که ارسال می‌کنید روی زنجیره ذخیره می‌شود، جایی که همه می‌توانند آن را بخوانند.",
      "the revision"),
     ("claims-fa", "seed_translator_fa", "claims", "fa", FA_CLAIMS, "a list with inline code and a number"),
-    # Added after claims-fa came back FLAWED on its first run: the judge's reason
-    # named "the rate of one section" and the word for the pool. The one revision
-    # the claim allows, written from that reason.
-    ("claims-fa-2", "seed_translator_fa", "claims", "fa",
-     FA_CLAIMS.replace("و نرخ یک بخش را از صندوق کنار می‌گذارد", "و یک نرخ را از استخر (pool) کنار می‌گذارد"),
-     "the revision the judge's reason asked for"),
     ("wrong-fa", "seed_translator_fa", "wrong", "fa",
      "## WRONG LANGUAGE\n\nمتن به زبان مقصد نیست، یا ترجمه‌ی متن مبدأ نیست. رزرو بی‌درنگ آزاد می‌شود.",
      "a kept term"),
     ("claims-es", "seed_translator_es", "claims", "es", ES_CLAIMS, "a list with inline code and a number"),
-    # Added after claims-es came back FLAWED on its first run: the judge named the
-    # added words "el programa". The one revision, without them.
-    ("claims-es-2", "seed_translator_es", "claims", "es",
-     ES_CLAIMS.replace("impedir que el mantenedor cierre el programa.", "impedir que el mantenedor cierre."),
-     "the revision the judge's reason asked for"),
     ("warning-es", "seed_translator_es", "warning", "es",
      "Nunca pegues una clave privada ni una frase de recuperación en una traducción. Todo lo que envías se guarda en la cadena, donde cualquiera puede leerlo.",
      "the warning"),
@@ -139,6 +134,9 @@ STEPS = [
 ]
 
 PEOPLE = ["seed_maintainer", "seed_translator_fa", "seed_translator_es", "seed_translator_de"]
+
+#: A second attempt runs only when its first came back FLAWED or failed the exact checks.
+REVISES = {"network-fa-2": "network-fa-1", "warning-fa-2": "warning-fa-1"}
 
 
 def now() -> str:
@@ -199,6 +197,12 @@ def main() -> int:
     for key, who, section_key, lang, text, why in STEPS:
         step = record["steps"].setdefault(key, {"translator": people[who].address, "section": section_key, "lang": lang, "why": why})
         if step.get("verdict") and step["verdict"] != "PENDING":
+            continue
+        base = record["steps"].get(REVISES.get(key, ""), {})
+        if key in REVISES and base.get("verdict") not in ("FLAWED", "PRECHECK_FAILED"):
+            step["skipped"] = f"{REVISES[key]} came back {base.get('verdict')}, so there is nothing to revise"
+            save(record)
+            say(f"{key}: skipped, {step['skipped']}")
             continue
         sid = record["sections"][section_key]
         chain = chains[who]

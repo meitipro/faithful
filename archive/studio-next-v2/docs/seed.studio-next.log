@@ -1,0 +1,33 @@
+added 4 sections from 14  https://explorer-studio-dev.genlayer.com/tx/0x26ea02ebc52135ab72486597f25eefdf50374a053ab4f3bf676a7a0c7367446a
+network-fa-1: claimed section 16 in fa  https://explorer-studio-dev.genlayer.com/tx/0xad9576628692824fe4d8951e911e7a1cf0fc47f5a529f17d91a0ac76423d610a
+network-fa-1: submitted as 5: PRECHECK_FAILED number 61997 is missing; number 61998 is not in the source  https://explorer-studio-dev.genlayer.com/tx/0x7322a6fe568805a4618a4a39dc5ff3bf04573e40cf6ee75e5623a43de0c4a69c
+network-fa-2: submitted as 6: PENDING   https://explorer-studio-dev.genlayer.com/tx/0x872f6190e2f8c8f93a10b3cd118745fc12e70e83b220bc5e61378e23b640fceb
+network-fa-2: FAITHFUL  The translation preserves the meaning, numbers, and glossary term, with natural Persian phrasing.  https://explorer-studio-dev.genlayer.com/tx/0x5541234361ae77521f00fe140dfb3c83f9f1762497bf6ed0bc18a33afed4aaaa
+warning-fa-1: claimed section 15 in fa  https://explorer-studio-dev.genlayer.com/tx/0x3cbe3d9067b151771d26b6f353013206490414518b25e38b47f4b3d21374c123
+warning-fa-1: submitted as 8: PENDING   https://explorer-studio-dev.genlayer.com/tx/0xaa91cec59b591d94cbde8f487527e1a6cb2fb620d783906a2772464713c70501
+warning-fa-1: FLAWED  Warning softened from absolute 'Never' to 'better not to' and final clause 'where anyone can read it' omitted.  https://explorer-studio-dev.genlayer.com/tx/0x6c8ecbc409d2a6edc4697972292add4f293d083192c9f6b696bd930c741c3336
+warning-fa-2: submitted as 10: PENDING   https://explorer-studio-dev.genlayer.com/tx/0x942ceb3e5b79c9a1e0bb7ea350cceff784fae33a2596a141c06ab3169eb88d8d
+warning-fa-2: FAITHFUL  Translation matches source meaning exactly, follows glossary, preserves all warnings, and reads naturally in Persian technical style.  https://explorer-studio-dev.genlayer.com/tx/0x08e67fef336b4ee2743e3dcbe49bd45580e37ed21d5b099099200aa65b417445
+claims-fa: claimed section 14 in fa  https://explorer-studio-dev.genlayer.com/tx/0x8c635608a5b51c3e502df53497678edce3b223c010be9d8fa9f03d20215158ef
+claims-fa: submitted as 12: PENDING   https://explorer-studio-dev.genlayer.com/tx/0x36b50da394589293e4bf4336d42296a185c57306d4fbd71fc72d4ab61f0cb191
+claims-fa: FLAWED  The phrase 'یک نرخ را از استخر (pool) کنار می‌گذارد' changes the meaning of 'reserves one rate from the pool' to 'sets aside a rate', which is imprecise and could imply removal rather than allocation   https://explorer-studio-dev.genlayer.com/tx/0x1299f61b745b7f38684e4033469ccf98cb79625630fa2c4d092010f4ffda4c27
+wrong-fa: claimed section 17 in fa  https://explorer-studio-dev.genlayer.com/tx/0xbb8f833f0df7ae0ff438724a8546cb09ddac40a759c3f789be5b46c84f8434f9
+wrong-fa: submitted as 15: PENDING   https://explorer-studio-dev.genlayer.com/tx/0x50542aa4830129287f2553af0973a67c94812dc48886229946bd6d6682c2197c
+wrong-fa: FAITHFUL  The translation accurately conveys the source meaning, follows the glossary requirements, and uses natural technical Persian phrasing.  https://explorer-studio-dev.genlayer.com/tx/0xc3c04313a9a86c335e2e3152b6533bd3cc9fd79f0e771a96dd843e8edd3be0e5
+claims-es: claimed section 14 in es  https://explorer-studio-dev.genlayer.com/tx/0xe4cd7f896bba126e843ac22541617c8387f8824770d374ee76d85f8bb3c0b838
+claims-es: submitted as 17: PENDING   https://explorer-studio-dev.genlayer.com/tx/0xb4d4012ec4ed0cfab9e1c79770b6b253299e48d76eede88020d70f6646498b52
+claims-es: FLAWED  First problem: “reserva una tarifa del fondo” changes the meaning of “reserves one rate from the pool,” since “tarifa” means fee/fare rather than the intended rate/slot from the pool.  https://explorer-studio-dev.genlayer.com/tx/0xd582a71388803faf2c9019bf42483ee2a0971c71f963d3a171d43d9e44db70bf
+warning-es: claimed section 15 in es  https://explorer-studio-dev.genlayer.com/tx/0x085e91a33eafe6e56180124376c6cc5af79259d8263926b57c78592968a0c3eb
+warning-es: submitted as 19: PENDING   https://explorer-studio-dev.genlayer.com/tx/0x1da1f076a33dca269b9d986f6bef96e2c7eddc67814bc143a1331454bed841d4
+warning-es: FAITHFUL  The translation accurately conveys all warnings, follows the glossary, and uses natural technical Spanish.  https://explorer-studio-dev.genlayer.com/tx/0x7fd7f74b6adeca482ea338a5c69690a155405844e7e5150a38eb6179f1bb6a63
+wrong-es: claimed section 17 in es  https://explorer-studio-dev.genlayer.com/tx/0x99d529d94a0c803f0c7faaefb7baf26b674bb58e5d54e4d70a67dfcc31ec6af6
+wrong-es: submitted as 21: PENDING   https://explorer-studio-dev.genlayer.com/tx/0x934f41eb3307bb551367eeeb603226f503614df231bb2a3b196347658d4508b7
+wrong-es: FAITHFUL  Accurate translation preserving meaning and using the required glossary term.  https://explorer-studio-dev.genlayer.com/tx/0x0b2f00927b1d9dad0cf02719fa726bfb378c6eaf6278524b191e1e190b4a6624
+network-de: claimed section 16 in de  https://explorer-studio-dev.genlayer.com/tx/0x0417dc488d0fc196db08c4812b58d26b2435338d65f19ed2aff8a22388a61e9f
+network-de: submitted as 23: PENDING   https://explorer-studio-dev.genlayer.com/tx/0xad8f07b543f8fe29aa2d205fd981b517b9262e5b09d13e4f1159e75e2b025374
+network-de: FAITHFUL  The translation accurately preserves the meaning, numbers, glossary terms, and structure without additions or omissions.  https://explorer-studio-dev.genlayer.com/tx/0x6582bc58b5f0d3bf43d8f58610088fd913c7d5fc8f4a7cce78ec961d38243c72
+seed_translator_fa withdrew 36.0 GEN  https://explorer-studio-dev.genlayer.com/tx/0x5176e28c7b705f1dead1fcbc3c5b54a97e4298654f5c31f9f4fe62ac511037cd
+program 2: pool 168.0 GEN, paid 72.0 GEN, approved {'fa': 3, 'es': 2, 'de': 1}
+added 5 FAQ sections from 32  https://explorer-studio-dev.genlayer.com/tx/0x2f6a1867db7be2454b449a53078853b0912a61f547ec0b2ec330249138e1bee4
+topped up program 2 with 200 GEN  https://explorer-studio-dev.genlayer.com/tx/0x11f6b86a76e9c762b3d0505e847348695fe174f09339fda6ee639dfaa1811e4f
+program 2: 9 sections, pool 368.0 GEN, enough for 28 more

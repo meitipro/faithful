@@ -1,10 +1,10 @@
 {
   "chainId": 61997,
-  "deployTx": "0xada2ee1dc55614ac9c6d070f4cd7c5b8f98549d5cefb9ef0f35a7d3ae8f1fa7f",
-  "deployedAt": "2026-10-03T12:45:54Z",
+  "deployTx": "0x478f9c0029c66e2e6cb382004684e9d84bb81aad6266641e6b3e3e05ca8d9c25",
+  "deployedAt": "2026-10-11T19:52:29Z",
   "explorer": "https://explorer-studio-dev.genlayer.com",
-  "faithful": "0x3762367564e2849380A761539E833D0A930D6e8f",
+  "faithful": "0xF8c1E884228b0e31bE304abaB6e3c6E5C6C744E1",
   "network": "studio-next",
   "rpc": "https://studio-next.genlayer.com/api",
-  "sourceSha256": "6a4736b340d213b8b9c31bde057e9e2e97f793cefe8d33af01e336af3c763730"
+  "sourceSha256": "d1bf3bc2ce87d98032fb6c45bd09e1eae7f7464330289cdadc822a11beb34677"
 }

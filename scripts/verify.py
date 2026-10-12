@@ -31,7 +31,6 @@ import chain as C
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-FILES = {"faithful": C.CONTRACT_FILE}
 
 
 def deployed_source(chain: C.Chain, address: str) -> str:
@@ -78,16 +77,20 @@ def lint_bytes(source: str) -> tuple[bool, str]:
 
 
 def main() -> int:
-    entry = C.deployment()
     chain = C.Chain()
     failures = 0
     print(f"network {C.NETWORK} (chain {C.CHAIN_ID})")
-    for name, path in FILES.items():
+    # The live deployment and every superseded one, each against the file FROZEN.json names for it.
+    for key, entry in sorted(C.frozen().get("deployments", {}).items()):
+        if not key.startswith(C.NETWORK):
+            continue
+        name = "faithful"
+        path = C.ROOT / entry.get(name + "_file", "contracts/faithful.py")
         address = entry.get(name)
         if not address:
             continue
         local = path.read_text(encoding="utf-8")
-        print(f"\n{name}  {address}")
+        print(f"\n{key}  {address}")
         recorded = entry.get(name + "_sha256")
         digest = C.sha256_file(path)
         print(f"  file sha256     {digest}{'  (matches FROZEN.json)' if digest == recorded else '  (FROZEN.json says ' + str(recorded) + ')'}")
@@ -115,7 +118,7 @@ def main() -> int:
         print(f"  deployed lint   {'clean' if ok else 'FAILED'} {detail}")
         if not ok:
             failures += 1
-    print("\n" + ("the deployment matches this repository" if not failures else f"{failures} problem(s)"))
+    print("\n" + ("every deployment matches this repository" if not failures else f"{failures} problem(s)"))
     return 1 if failures else 0
 
 

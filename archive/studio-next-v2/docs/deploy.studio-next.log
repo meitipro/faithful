@@ -1,0 +1,7 @@
+lint     ok  13 methods (8 writes, 5 views)
+validate ok  the live Studio Next runtime reads 13 methods
+network  studio-next (chain 61997) via https://studio-next.genlayer.com/api
+deployer 0x9CBCc166D73eC874A163D0d6Ba7483278579fd22
+  deploying contracts/faithful.py (61491 bytes) to studio-next
+  faithful.py -> 0x9Be39946C8D795C133EF2aAD58FC540c168ceA85
+recorded 0x9Be39946C8D795C133EF2aAD58FC540c168ceA85  https://explorer-studio-dev.genlayer.com/tx/0x810d561a6c80e3afdd7cc1d350f1551159b3956be45d3c048333cc547351a00d

@@ -41,11 +41,11 @@ SHA-256 of the constant: `ad78d6d3faed8087d7287f94f5a81bdaeacaca8a70d881ed69faff
 
 ## How the glossary block is filled
 
-Only the terms that appear in the section's source (compared ignoring case), with the rendering for the target language, in glossary order. A term kept as written reads like the second line:
+Only the terms that appear in the section's source (compared ignoring case), with the rendering for the target language, in glossary order. Each line tells the judge that grammatical forms of the term are fine, so a plural or a case ending is not a wrong glossary term. These two lines are produced by the contract's own `glossary_for`, for a German section that mentions both terms:
 
 ```text
-recovery phrase -> عبارت بازیابی
-Intelligent Contract -> Intelligent Contract (keep as written)
+recovery phrase -> Wiederherstellungsphrase (inflected forms of this rendering are fine)
+validator -> validator (keep untranslated; endings the target grammar adds to it are fine; checked by code: found in the translation with an ending the target grammar adds: Validatoren)
 ```
 
 When no glossary term appears in the section, the block holds the contract's own words:

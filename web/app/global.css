@@ -547,6 +547,7 @@ body {
     background: var(--surface-2);
   }
   .c-state.flawed,
+  .c-state.stalled,
   .c-state.pre {
     color: var(--ink-2);
     border-style: dashed;

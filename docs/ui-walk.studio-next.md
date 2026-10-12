@@ -1,29 +1,50 @@
-# The reviewer's path, through the live site's own UI
+# The whole path, through the deployed frontend
 
-2026-10-08, on https://faithful-genlayer.vercel.app. A wallet made for this walk only, `0xf4F5642061da509B6C2bF6a31394eA47D86EE5E5`,
-lived in the browser page as an EIP-1193 provider: it started with no account and on another network, the way a
-fresh MetaMask does. Its key was generated inside the page and never left it. Every click below is a button on the
-site; every transaction was signed by that wallet through the site's own code.
+2026-10-12, on https://faithful-genlayer.vercel.app, against the current contract
+[`0xF8c1E884228b0e31bE304abaB6e3c6E5C6C744E1`](https://explorer-studio-dev.genlayer.com/address/0xF8c1E884228b0e31bE304abaB6e3c6E5C6C744E1).
+Two wallets made for this walk lived in the browser page as EIP-1193 providers, with keys generated inside the page
+and never shown: a maintainer, `0x455c634dCb7956CAEC8bF50663248A7162a57aBf`, and a translator,
+`0x08698Cd471D205bed52aEF0e3B518013149F446e`. Each started at 0 GEN, like a fresh MetaMask on another network: the site
+asked to switch, added chain 61997, and paid 20 GEN from its own **Get test GEN**. Every step below is a button on the
+site. The record, with every receipt, is [`docs/ui-walk.studio-next.json`](ui-walk.studio-next.json).
 
-| # | On the site | What happened | Transaction |
+| # | Who | On the site | What happened | Transaction |
+|---|---|---|---|---|
+| 1 | maintainer | **Start a program**: name, Persian, rate 2 GEN, funding 5 GEN, a Markdown passage pasted and split into one section; **Open the program with 1 section** | program 4 opened with 5 GEN | [create](https://explorer-studio-dev.genlayer.com/tx/0xaa1e32fc49d384ba09190be65619148acda6b397eab2f6b127b4277b1fa36371) · [add section 37](https://explorer-studio-dev.genlayer.com/tx/0x77e5d9c3e2d865b6191c707649f6f96a21f87d49dd4ee8c669f6fcefe3cd8b17) |
+| 2 | translator | board → section 37, Persian → **Claim for 48 hours** | claimed, 2 GEN reserved | [claim](https://explorer-studio-dev.genlayer.com/tx/0xd4e249f975ba250d0142eeff97ce92557e7ed781f0bc125d961561e123dc8f2d) |
+| 3 | translator | wrote the translation; all eight live checks passed (numbers by value, heading levels, lists, tables); **Submit for checking** | submit, then judge: **FAITHFUL**, 2 GEN credited; the page showed the 24-hour judging deadline while it waited | [submit](https://explorer-studio-dev.genlayer.com/tx/0x1c73e2cc945dbb39f0f496199b3ad3183dfe44dc9a4d2de1fd959dafc64710d9) · [judge](https://explorer-studio-dev.genlayer.com/tx/0x2b687fb95e54833d481010297977835349b714f9ba35357a16a330cfb460fa73) |
+| 4 | translator | **Translators** → **Withdraw 2 GEN** | 2 GEN paid | [withdraw](https://explorer-studio-dev.genlayer.com/tx/0x421b167bc1c5d842e50ad8167052877fa8542a183c79bfba6a9d1f556f825189) |
+| 5 | maintainer | program board → **Close the program** | "Closed. 3 GEN went back to the maintainer." | [close](https://explorer-studio-dev.genlayer.com/tx/0x4a7bfd353b5bdafa96a4ca1cab319c180ea0d90493962bff4b385dc08fbb5894) |
+
+## What GenVM did, read back from the chain
+
+`python scripts/check_receipts.py --walk docs/ui-walk.studio-next.json` reads every transaction after finality. A
+refusal is ACCEPTED too, so each one is checked on all three counts:
+
+| Step | Consensus | GenVM execution | Result | Returned | Fees |
+|---|---|---|---|---|---|
+| open program | FINALIZED | SUCCESS | return | 4 | settled |
+| add section | FINALIZED | SUCCESS | return | 37 | settled |
+| claim | FINALIZED | SUCCESS | return | 1791960159 (claim expiry) | settled |
+| submit | FINALIZED | SUCCESS | return | 38 (submission id) | settled |
+| judge | FINALIZED | SUCCESS | return | "FAITHFUL" | settled |
+| withdraw | FINALIZED | SUCCESS | return | 2000000000000000000 | settled |
+| close | FINALIZED | SUCCESS | return | 3000000000000000000 | settled |
+
+Read back afterwards: program 4 has pool 0, paid 2 GEN, returned 3 GEN, funded 5 GEN, closed; section 37 is APPROVED
+in Persian; submission 38 is FAITHFUL, credited 2000000000000000000 wei.
+
+## The wallets, to the wei
+
+Over the whole walk, after every fee accounting settled:
+
+| Wallet | 20 GEN from the faucet, minus value sent, minus net fees, plus payout | Balance | Difference |
 |---|---|---|---|
-| 1 | **Connect wallet**, then **Switch network** | The site asked to switch, the wallet did not know chain 61997, the site added it and switched | |
-| 2 | **Get test GEN** | The site's faucet paid 20 GEN; the header showed `20 GEN` | |
-| 3 | **Programs** → *Faithful docs, community translations* → section 24, Persian | Editor opened with the source and the live checks | |
-| 4 | **Claim for 48 hours** | Claimed; 12 GEN reserved from the pool | [0x2c70dba1…](https://explorer-studio-dev.genlayer.com/tx/0x2c70dba137fe6fa2062d11df8b90dce8401f3e33178e0d75a2dedb8eb416dbe9) |
-| 5 | Typed ۴۹ where the source says 48 | "Numbers match ✗ number 48 is missing; number 49 is not in the source"; **Submit for checking** disabled; nothing sent | |
-| 6 | Fixed it to ۴۸, **Submit for checking** | submit, then judge: FLAWED, "…translated … the next claim … as … the first reservation …" (the word *نخستین*, "first", for "next") | [submit](https://explorer-studio-dev.genlayer.com/tx/0xd5ed533de8872e5376bf22f3f4fcd7dfdc06b04cc19bf49a6ecd71e07eb4120b) · [judge](https://explorer-studio-dev.genlayer.com/tx/0x3712c52e2b2124c975ef4d86e63bfaded930989c6b9b7f62135375d4a86c5523) |
-| 7 | The page said "This is your one revision"; revised the word, **Submit for checking** | FAITHFUL, 12 GEN credited, section 24 approved in Persian | [submit](https://explorer-studio-dev.genlayer.com/tx/0x72a2905a9b4a5ebd0b4716dd5a034b6d5c77c7b7e5c30d0f03f58d974aef3e2d) · [judge](https://explorer-studio-dev.genlayer.com/tx/0xe6b5ef03e8ab0ab994e93daebb749dd998eb021e00d7434f43e31c79d617354d) |
-| 8 | **Translators** → **Withdraw 12 GEN** | Paid at finality | [0x1860518f…](https://explorer-studio-dev.genlayer.com/tx/0x1860518f81bb6e5954bc9fa80d871a40e749b96d3ea1d02aa43f8cb5516601d8) |
+| maintainer | 17999691427999991531 wei (−5 GEN funding, +3 GEN refund) | 17999716427999991531 wei | +25000000000000 wei |
+| translator | 21999612054499988708 wei (+2 GEN withdrawn) | 21999637054499988708 wei | +25000000000000 wei |
 
-Read back from the contract after the walk: section 24 holds submission 29 (attempt 1, FLAWED) and submission 30
-(attempt 2, FAITHFUL, credited 12000000000000000000 wei); its Persian state is APPROVED; the wallet's balance on the
-contract is 0 after the withdraw.
+Both payouts arrived in full. Each wallet ends exactly 25,000,000,000,000 wei above the accounting: the External
+message fee Studio Next records on a payout's fee accounting and does not charge, the same term on every payout of
+this and the earlier contracts.
 
-## The wallet, to the wei
-
-Over the whole walk, after every transaction's fee accounting settled: 20 GEN from the faucet + 12 GEN withdrawn −
-the net fee of the six transactions (78633250002823 + 78642250002823 + 159243500004586 + 78640500002823 +
-79553500002823 + 151305750002823 wei) = 31999373981249981299 wei expected; the wallet held 31999398981249981299 wei.
-The difference, +25000000000000 wei, is the External message fee Studio Next lists in the withdraw's accounting
-and does not charge, the same term as in `docs/reviewer-path.studio-next.md`.
+The walks on the earlier contracts are kept in `archive/studio-next-v1/docs/`.

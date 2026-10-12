@@ -15,7 +15,7 @@ import { studioDevnet } from 'genlayer-js/chains';
 
 import { standinWallet } from '../scripts/standin-wallet.mjs';
 
-const FAITHFUL = '0x3762367564e2849380A761539E833D0A930D6e8f';
+const FAITHFUL = '0xF8c1E884228b0e31bE304abaB6e3c6E5C6C744E1';
 const chain = { ...studioDevnet, id: 61997, rpcUrls: { default: { http: ['https://studio-next.genlayer.com/api'] } } };
 
 const [name = 'docs_example', section = '1', lang = 'fa', file] = process.argv.slice(2);

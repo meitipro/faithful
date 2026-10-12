@@ -27,9 +27,26 @@ language. Every term and rendering is fenced like the texts, so a glossary entry
 shows the same list under "Glossary in this section".
 
 A wrong glossary term is one of the problems the rubric names, so a localised term the glossary says to keep comes
-back FLAWED. The [evaluation](/docs/more/evaluation) has a case where that went further than the spec expected: the
-German plural *Validatoren* for a kept *validator* was judged FLAWED too. If inflection is acceptable for a term in
-your project, say so by giving the inflected form as its rendering rather than `"keep"`.
+back FLAWED.
+
+## Inflection
+
+Languages inflect nouns: German pluralises *Validator* as *Validatoren*, Turkish adds *-lar*, Portuguese turns *frase*
+into *frases*. On the first two contracts a kept *validator* written as *Validatoren* was judged FLAWED, which a
+German reader would not call wrong. Recognising an ending is something code can do, so the contract now does it:
+for every term to keep, it looks for the term at the start of a word in the translation, ignoring case, takes any
+ending the word carries, and tells the judge what it found, as a checked fact. Renderings say that inflected forms
+are fine. For a German section:
+
+```text
+validator -> validator (keep untranslated; endings the target grammar adds to it are fine; checked by code: found in the translation with an ending the target grammar adds: Validatoren)
+recovery phrase -> Wiederherstellungsphrase (inflected forms of this rendering are fine)
+```
+
+A kept term that was translated away reads `checked by code: not found in the translation`, so it still comes back
+FLAWED. The [evaluation](/docs/more/evaluation) has both: the German case, now FAITHFUL, and a Spanish
+*Contrato Inteligente* for a kept *Intelligent Contract*, still FLAWED; the multilingual set adds a Turkish suffix on a
+kept term and a Portuguese plural of a rendering.
 
 ## Style and tone
 
