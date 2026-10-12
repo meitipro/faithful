@@ -28,9 +28,9 @@ Paid docs translations: exact code guards code and numbers, validators judge mea
 
 ## Description
 
-Faithful pays for documentation translations on the evidence of meaning rather than on trust.
+Faithful pays for docs translations on the evidence of meaning, not on trust.
 
-A maintainer funds a program, imports docs as short sections and sets a glossary; translators claim one section in one language for 48 hours. Exact code in submit checks that code blocks, inline code, links, headings and numbers survived, with Persian and Arabic-Indic digits normalised, so a changed fee never reaches a model; numbers are compared by value and heading levels, lists and tables by structure. Validators then ask whether a reader of the translation gets exactly what a reader of the source gets, and agree on one label: FAITHFUL credits the rate, FLAWED names the first problem and allows one revision, WRONG_LANGUAGE releases the claim. The pool is reserved per claim; payouts are top-level withdraw and close. Approved sections export as Markdown or JSON, each linked to its judge transaction.
+A maintainer funds a program, imports docs as short sections and sets a glossary; translators claim one section in one language for 48 hours. Exact code in submit checks that code blocks, inline code, links, headings and numbers survived, with Persian and Arabic-Indic digits normalised, so a changed fee never reaches a model; numbers are compared by value and heading levels, lists and tables by structure. Validators then ask whether a reader of the translation gets exactly what a reader of the source gets, and agree on one label: FAITHFUL credits the rate, FLAWED names the first problem and allows one revision, WRONG_LANGUAGE releases the claim. Payouts are top-level withdraw and close. Approved sections export as Markdown or JSON, each linked to its judge transaction.
 
 Deployed on Studio Next. Through real consensus, published as they came out: golden 10 of 10, held-out 3 of 3, multilingual 14 of 14.
 
